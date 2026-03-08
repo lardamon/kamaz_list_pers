@@ -1,0 +1,6557 @@
+@font-face {
+  font-family: "Cinzel";
+  src: url("./assets/fonts/cinzel_bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("./assets/fonts/Inter-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("./assets/fonts/Inter-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("./assets/fonts/Inter-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* =========================
+   THEME TOKENS (Cataclysm / Lich King)
+   ========================= */
+
+:root {
+  --safeTop: env(safe-area-inset-top, 0px);
+  --safeBottom: env(safe-area-inset-bottom, 0px);
+
+  /* Cataclysm — обсидиан + лава (чуть менее “рыжий пластик”, больше вулкан/пепел) */
+  --bg0: #040506;
+  --bg1: #090a0c;
+  --bg2: #101215;
+
+  --text: rgba(248, 238, 222, 0.92);
+  --muted: rgba(248, 226, 196, 0.62);
+  --muted2: rgba(248, 226, 196, 0.42);
+
+  --panel: rgba(255, 138, 43, 0.06);
+  --panel2: rgba(255, 138, 43, 0.10);
+
+  --accent: #ff8a2b;   /* lava orange (чуть мягче) */
+  --accent2: #ff3f1f;  /* ember red (чуть ярче/чище) */
+  --glow: rgba(255, 138, 43, 0.30);
+  --glow2: rgba(255, 63, 31, 0.20);
+
+  --hp: #78d6b6;
+  --danger: #ff5d6e;
+
+  /* aliases for UI states (HP/temp/negative/buttons) */
+  --ok: var(--hp);
+  --bad: var(--danger);
+  --shadow: 0 18px 58px rgba(0, 0, 0, 0.70);
+
+  --radiusCard: 10px;
+  --radiusSoft: 14px;
+
+  --line: rgba(255, 184, 120, 0.14);
+
+  /* Иконки: “раскалённое золото” (чуть менее оранжевое, более бронза) */
+  --iconFilter: brightness(0) saturate(100%) invert(78%) sepia(38%) saturate(1450%) hue-rotate(350deg) brightness(102%) contrast(98%);
+
+  /* Фон + вулканический воздух */
+  --bgGradient:
+    radial-gradient(900px 720px at 50% -260px, rgba(255, 138, 43, 0.18), transparent 64%),
+    radial-gradient(850px 620px at 18% 18%, rgba(255, 63, 31, 0.14), transparent 62%),
+    radial-gradient(900px 680px at 82% 14%, rgba(255, 210, 150, 0.05), transparent 66%),
+    radial-gradient(900px 680px at 62% 88%, rgba(255, 138, 43, 0.06), transparent 62%),
+    linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 44%, var(--bg0) 100%);
+
+  --gridOverlay:
+    repeating-linear-gradient(135deg, rgba(255, 184, 120, 0.050) 0 1px, transparent 1px 44px),
+    repeating-linear-gradient(45deg, rgba(255, 184, 120, 0.028) 0 1px, transparent 1px 56px);
+}
+html[data-theme="arcane"] {
+  /* Lich King — холодный лёд + руны (WoW WotLK вайб, “немного магии”) */
+  --bg0: #050a12;
+  --bg1: #070f1c;
+  --bg2: #0b1626;
+
+  --text: rgba(235, 246, 255, 0.92);
+  --muted: rgba(190, 225, 255, 0.64);
+  --muted2: rgba(190, 225, 255, 0.42);
+
+  --panel: rgba(96, 190, 255, 0.08);
+  --panel2: rgba(96, 190, 255, 0.12);
+
+  --accent: #4dd6ff;   /* frost cyan */
+  --accent2: #8a6bff;  /* rune violet */
+  --glow: rgba(77, 214, 255, 0.30);
+  --glow2: rgba(138, 107, 255, 0.18);
+
+  --hp: #6fe2c1;
+  --danger: #ff6b7d;
+
+  --shadow: 0 18px 60px rgba(0, 0, 0, 0.72);
+
+  --line: rgba(190, 225, 255, 0.16);
+
+  /* Иконки: холодный “ледяной свет” */
+  --iconFilter: brightness(0) saturate(100%) invert(92%) sepia(12%) saturate(420%) hue-rotate(170deg) brightness(106%) contrast(96%);
+
+  --bgGradient:
+    radial-gradient(900px 720px at 52% -260px, rgba(77, 214, 255, 0.20), transparent 64%),
+    radial-gradient(880px 720px at 78% 10%, rgba(138, 107, 255, 0.14), transparent 62%),
+    radial-gradient(900px 760px at 18% 24%, rgba(255, 255, 255, 0.05), transparent 60%),
+    linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 46%, var(--bg0) 100%);
+
+  --gridOverlay:
+    repeating-linear-gradient(135deg, rgba(190, 225, 255, 0.055) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(45deg, rgba(190, 225, 255, 0.030) 0 1px, transparent 1px 60px);
+}
+html[data-theme="legion"] {
+  /* Legion — fel/acid green + black (WoW Legion вайб) */
+  --bg0: #020405;
+  --bg1: #040809;
+  --bg2: #071011;
+
+  --text: rgba(232, 255, 238, 0.92);
+  --muted: rgba(175, 255, 206, 0.62);
+  --muted2: rgba(175, 255, 206, 0.42);
+
+  --panel: rgba(167, 255, 26, 0.08);
+  --panel2: rgba(167, 255, 26, 0.12);
+
+  --accent: #a7ff1a;   /* fel green */
+  --accent2: #7d2bff;  /* void violet */
+  --glow: rgba(167, 255, 26, 0.28);
+  --glow2: rgba(125, 43, 255, 0.18);
+
+  --hp: #61f0bf;
+  --danger: #ff6b7d;
+
+  --shadow: 0 18px 60px rgba(0, 0, 0, 0.74);
+
+  --line: rgba(175, 255, 206, 0.14);
+
+  /* Иконки: “ядовито-зелёный неон” */
+  --iconFilter: brightness(0) saturate(100%) invert(86%) sepia(62%) saturate(1550%) hue-rotate(40deg) brightness(106%) contrast(98%);
+
+  --bgGradient:
+    radial-gradient(900px 720px at 52% -260px, rgba(167, 255, 26, 0.18), transparent 64%),
+    radial-gradient(880px 720px at 78% 10%, rgba(125, 43, 255, 0.12), transparent 62%),
+    radial-gradient(900px 760px at 18% 24%, rgba(0, 255, 154, 0.06), transparent 62%),
+    linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 46%, var(--bg0) 100%);
+
+  --gridOverlay:
+    repeating-linear-gradient(135deg, rgba(167, 255, 26, 0.050) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(45deg, rgba(167, 255, 26, 0.028) 0 1px, transparent 1px 60px);
+}
+/* =========================
+   BASE
+   ========================= */
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+/* visually hidden (for file inputs etc.) */
+.srOnly{
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+body {
+    margin: 0;
+  background:
+    var(--gridOverlay),
+    var(--bgGradient);
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  letter-spacing: 0.2px;
+  overflow: hidden;
+}
+.app {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.screen {
+  height: 100%;
+  display: none;
+  grid-template-rows: auto auto 1fr;
+  overflow: hidden;
+}
+.screen--active { display: grid; }
+/* SCREEN: CHARACTER — у него 2 ряда (header + body), поэтому делаем auto + 1fr */
+#screenChar.screen{
+  grid-template-rows: auto 1fr;
+}
+
+#screenChar .charBody{
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+/* =========================
+   LIST SCREEN (index)
+   ========================= */
+
+.topbar {
+  padding: calc(12px + var(--safeTop)) 14px 8px;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+
+.titleStack { text-align: center; }
+.title {
+  font-family: Cinzel, serif;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.6px;
+}
+.subtitle {
+  margin-top: 2px;
+  color: var(--muted2);
+  font-size: 14px;
+}
+
+.listActions {
+  padding: 0 14px 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.jsonActions { position: relative; }
+
+.jsonBtn {
+  height: 36px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.jsonBtn__text { font-weight: 700; letter-spacing: 0.6px; }
+.jsonBtn__icon { width: 16px; height: 16px; opacity: 0.95; filter: var(--iconFilter); }
+.content {
+  overflow: auto;
+  padding: 10px 14px calc(96px + var(--safeBottom));
+}
+
+.cards { display: grid; gap: 12px; }
+
+/* only рамка здесь (карточка + квадрат аватара) */
+.card {
+  position: relative;
+  padding: 12px;
+  border-radius: var(--radiusCard);
+  background: linear-gradient(180deg, var(--panel2), var(--panel));
+  box-shadow: 0 10px 30px rgba(0,0,0,0.34);
+}
+html[data-theme="arcane"] .card {
+  box-shadow: 0 12px 36px rgba(12, 18, 40, 0.14);
+}
+
+.card__row {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.card__avatarWrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px; /* почти квадрат */
+  background: rgba(255,255,255,0.03);
+  outline: 1px solid rgba(255,255,255,0.10);
+  outline-offset: -1px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+html[data-theme="arcane"] .card__avatarWrap {
+  outline: 1px solid rgba(13, 18, 28, 0.12);
+  background: rgba(13, 18, 28, 0.03);
+}
+
+.card__avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* заполняет рамку */
+}
+
+.card__name {
+  font-family: Cinzel, serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.25px;
+  margin-bottom: 2px;
+}
+
+.card__meta {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.card__hp {
+  margin-top: 7px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--hp);
+  font-weight: 600;
+}
+.card__hpIcon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.98;
+  filter: brightness(0) saturate(100%) invert(74%) sepia(20%) saturate(680%) hue-rotate(102deg) brightness(96%) contrast(92%);
+}
+.card__hpText { font-size: 14px; }
+
+.card__menuBtn {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  display: grid;
+  place-items: center;
+}
+html[data-theme="arcane"] .card__menuBtn { background: rgba(13,18,28,0.04); }
+.fab__icon { width: 22px; height: 22px; filter: var(--iconFilter) drop-shadow(0 6px 12px rgba(0,0,0,0.30)); }
+.fab {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + var(--safeBottom));
+  width: 56px;
+  height: 56px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow:
+    0 18px 44px rgba(0,0,0,0.45),
+    0 0 0 1px rgba(255,255,255,0.10) inset;
+  display: grid;
+  place-items: center;
+}
+html[data-theme="arcane"] .fab {
+  box-shadow:
+    0 18px 44px rgba(12,18,40,0.20),
+    0 0 0 1px rgba(13,18,28,0.10) inset;
+}
+.fab__icon { width: 22px; height: 22px; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.30)); }
+
+/* =========================
+   ICON BUTTONS (NO BOXES)
+   ========================= */
+
+.iconBtn {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 0;
+  background: transparent; /* никаких рамок */
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+.iconBtn__icon { width: 20px; height: 20px; opacity: 0.95; filter: var(--iconFilter); }
+/* =========================
+   POPOVER (glass/metal)
+   ========================= */
+
+.popover {
+  position: absolute;
+  top: 42px;
+  left: 0;
+  min-width: 190px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 6px;
+  z-index: 20;
+  background: rgba(10, 10, 12, 0.92);
+  backdrop-filter: blur(10px);
+}
+html[data-theme="arcane"] .popover {
+  background:
+    radial-gradient(120% 160% at 20% 10%, color-mix(in srgb, var(--glow) 66%, transparent), transparent 58%),
+    radial-gradient(120% 160% at 80% 0%, color-mix(in srgb, var(--glow2) 56%, transparent), transparent 62%),
+    color-mix(in srgb, var(--bg1) 90%, #000 10%);
+  backdrop-filter: blur(14px);
+}
+html[data-theme="molten"] .popover {
+  background:
+    radial-gradient(120% 160% at 20% 10%, color-mix(in srgb, var(--glow) 62%, transparent), transparent 58%),
+    radial-gradient(120% 160% at 80% 0%, color-mix(in srgb, var(--glow2) 52%, transparent), transparent 62%),
+    color-mix(in srgb, var(--bg1) 90%, #000 10%);
+  backdrop-filter: blur(14px);
+}
+
+html[data-theme="legion"] .popover {
+  background:
+    radial-gradient(120% 160% at 18% 10%, color-mix(in srgb, var(--glow) 58%, transparent), transparent 58%),
+    radial-gradient(120% 160% at 82% 0%, color-mix(in srgb, var(--glow2) 46%, transparent), transparent 62%),
+    color-mix(in srgb, var(--bg1) 92%, #000 8%);
+  backdrop-filter: blur(16px);
+}
+.popover--right { right: 0; left: auto; }
+.popover--hidden { display: none; }
+
+.popItem {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  padding: 10px 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.popItem:active { background: rgba(255,255,255,0.06); }
+html[data-theme="arcane"] .popItem:active { background: rgba(255,255,255,0.08); }
+.popItem__icon { width: 18px; height: 18px; opacity: 0.95; filter: var(--iconFilter); }
+.popItem__text {
+  font-size: 14px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+}
+/* =========================
+   CHARACTER HEADER (make compact!)
+   ========================= */
+
+.charHeader {
+  padding: calc(4px + var(--safeTop)) 14px 6px; /* реально компактнее */
+  background: linear-gradient(180deg, rgba(0,0,0,0.72), rgba(0,0,0,0.40));
+  backdrop-filter: blur(8px);
+}
+/* при сворачивании — прижимаем шапку снизу, чтобы не оставался “воздух” */
+.charHeader.is-collapsed{
+  padding-bottom: 0px;
+}
+.charHeader.is-collapsed .charHeader__inner{
+  padding-bottom: 0px;
+}
+html[data-theme="arcane"] .charHeader {
+  background: linear-gradient(180deg, rgba(0,0,0,0.62), rgba(0,0,0,0.34));
+  backdrop-filter: blur(8px);
+}
+.charHeader__top {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: 8px;
+}
+.charTitle { text-align: center; }
+.charTitle__name {
+  font-family: Cinzel, serif;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 19px;
+}
+.charTitle__meta {
+  margin-top: 1px;
+  color: var(--muted2);
+  font-size: 12px;
+}
+
+.charAvatar {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+html[data-theme="arcane"] .charAvatar { background: rgba(13,18,28,0.04); }
+
+.charAvatar__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* заполняет рамку */
+  border-radius: 12px;
+  opacity: 1;
+}
+/* =========================
+   HEADER PARTS (placeholders 2/3)
+   ========================= */
+
+.headerPart {
+  margin-top: 8px;
+  height: 54px; /* просто занимаем место, БЕЗ рамок/карточек */
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  display: grid;
+  place-items: center;
+}
+
+.headerPart__hint {
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: var(--muted2);
+  opacity: 0.55;
+}
+/* Collapse behavior: остаётся только 2 часть (с анимацией "складывания") */
+.charHeader__top,
+.xpBar,
+.headerPart--3,
+.headerPart--2 {
+  transition: transform 220ms ease, opacity 220ms ease, max-height 220ms ease, margin 220ms ease;
+  max-height: 200px;
+  opacity: 1;
+}
+.charHeader.is-collapsed .charHeader__top {
+  transform: translateY(-14px);
+  opacity: 0;
+
+  max-height: 0;
+  height: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+
+  pointer-events: none;
+}
+.charHeader.is-collapsed .xpBar {
+  transform: translateY(-10px);
+  opacity: 0;
+
+  max-height: 0;
+  height: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+
+  pointer-events: none;
+}
+.charHeader.is-collapsed .headerPart--3 {
+  transform: translateY(12px);
+  opacity: 0;
+
+  max-height: 0;
+  height: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+/* 2 часть остаётся на месте по потоку — шапка сжимается за счёт скрытия 1/XP/3 */
+.charHeader.is-collapsed .headerPart--2 {
+  transform: none;
+  margin-top: 0;
+}
+/* =========================
+   XP BAR (thin, next level inside at the end)
+   ========================= */
+
+.xpBar {
+  margin-top: 8px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1px; /* СКЛЕИВАЕМ в одну полосу */
+}
+.xpBar__lvlPill {
+  height: 16px;
+  padding: 0 9px;
+  border-radius: 999px 0 0 999px;
+  background:
+    linear-gradient(90deg,
+      rgba(255,255,255,0.00) 0%,
+      rgba(255,255,255,0.12) 18%,
+      rgba(255,255,255,0.00) 36%),
+    color-mix(in srgb, var(--accent) 56%, transparent); /* как fill, но ярче */
+  filter: drop-shadow(0 0 12px var(--glow)); /* чуть ярче, чем у fill */
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  color: color-mix(in srgb, var(--text) 90%, transparent);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 32%, transparent) inset;
+}
+.xpBar__track {
+  position: relative;
+  height: 16px;
+  border-radius: 0 999px 999px 0;
+  background: rgba(255,255,255,0.06);
+  overflow: hidden;
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 32%, transparent) inset;
+}
+html[data-theme="arcane"] 
+.xpBar__track { background: rgba(13,18,28,0.08); }
+
+.xpBar__fill {
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  background:
+    linear-gradient(90deg,
+      rgba(255,255,255,0.00) 0%,
+      rgba(255,255,255,0.10) 18%,
+      rgba(255,255,255,0.00) 36%),
+    color-mix(in srgb, var(--accent) 42%, transparent);
+  filter: drop-shadow(0 0 10px var(--glow));
+}
+
+.xpBar__text {
+  position: relative;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  color: color-mix(in srgb, var(--text) 72%, transparent);
+  font-size: 10px;
+  font-weight: 500; /* тоньше */
+  letter-spacing: 0.2px;
+  padding-right: 24px;
+}
+
+.xpBar__nextIn {
+  position: absolute;
+  right: 7px;
+  top: 0;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 10px;
+  color: color-mix(in srgb, var(--text) 62%, transparent);
+  pointer-events: none;
+}
+
+/* =========================
+   COLLAPSE STRIP (lines split left/right, not through text)
+   ========================= */
+
+.collapseStrip {
+  width: 100%;
+  margin-top: 8px;
+  height: 18px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.collapseStrip::before,
+.collapseStrip::after {
+  content: "";
+  height: 1px;
+  background: var(--line);
+  flex: 1 1 auto;
+  transform: translateY(1px);
+}
+
+.collapseStrip__text {
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 500; /* тонкий */
+  color: var(--muted2);
+}
+
+.collapseStrip__icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.70;
+  filter: var(--iconFilter);
+  transform: rotate(180deg) !important; /* в развернутом виде = ВВЕРХ */
+}
+/* collapsed state: NO TEXT, lines start from arrow (still split) */
+.collapseStrip.is-collapsed {
+  gap: 8px;
+}
+.collapseStrip.is-collapsed .collapseStrip__text { display: none; }
+.collapseStrip.is-collapsed .collapseStrip__icon {
+  transform: rotate(0deg) !important; /* в свернутом виде = ВНИЗ */
+}
+/* =========================
+   HEADER PART 2 (AC + CONDITIONS)
+   ========================= */
+
+.headerPart { width: 100%; }
+
+.headerPart--2 {
+  margin-top: 10px;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+}
+
+.headerPart--3 {
+  margin-top: 10px;
+  min-height: 56px;
+}
+
+.h2Row{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 58px auto 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.h2Right{ height: 48px; width: 100%; }
+/* ===== Header Part 3 ===== */
+.headerPart--3{
+  margin-top: 10px;
+  min-height: 56px;
+}
+
+.h3Row{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 58px auto 1fr;
+  align-items: center;
+  gap: 10px;
+}
+#initBox{
+  width: 100%;
+  justify-self: stretch;
+  min-width: 0;
+}
+/* рамка-виджет (вдохновение / инициатива) */
+/* рамка-виджет (вдохновение / инициатива) — ДЕЛАЕМ 1:1 как condBtn */
+.miniFrame{
+  height: 48px;
+  width: 150px;
+    border: 0;
+  border-radius: 14px;
+  padding: 6px 10px 4px;   /* текст ниже */
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* не по центру, а ниже */
+  gap: 2px;
+
+  /* БЕЗ ФОНА: такой же контур, как у СОСТОЯНИЙ/ХП */
+  background: transparent;
+  box-shadow:
+    0 12px 26px rgba(0,0,0,0.22),
+    0 0 0 1px color-mix(in srgb, var(--accent) 78%, transparent) inset,
+    0 0 0 2px color-mix(in srgb, var(--accent2) 42%, transparent) inset,
+    0 0 14px color-mix(in srgb, var(--glow) 24%, transparent);
+  transition: transform 120ms ease, box-shadow 160ms ease;
+
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.miniFrame:active{
+  transform: translateY(1px);
+  box-shadow:
+    0 14px 28px rgba(0,0,0,0.24),
+    0 0 0 1px color-mix(in srgb, var(--accent) 92%, transparent) inset,
+    0 0 0 2px color-mix(in srgb, var(--accent2) 52%, transparent) inset,
+    0 0 18px color-mix(in srgb, var(--glow) 38%, transparent);
+}
+
+.miniFrame:focus-visible{
+  outline: none;
+  box-shadow:
+    0 14px 28px rgba(0,0,0,0.22),
+    0 0 0 1px color-mix(in srgb, var(--accent) 92%, transparent) inset,
+    0 0 0 2px color-mix(in srgb, var(--accent2) 56%, transparent) inset,
+    0 0 0 2px color-mix(in srgb, var(--accent) 65%, transparent),
+    0 0 20px color-mix(in srgb, var(--glow) 40%, transparent);
+}
+
+/* ВДОХНОВЕНИЕ / ИНИЦИАТИВА */
+#initBox{
+  width: auto;
+  justify-self: stretch;
+  min-width: 0;
+}
+.miniFrame__label{
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  color: color-mix(in srgb, var(--text) 74%, transparent);
+  white-space: nowrap;
+  text-align: center;
+
+  margin: 4px 0 0 0;  /* опущен ниже */
+  padding: 0;
+  line-height: 1;
+  height: auto;
+
+  text-shadow: none;
+
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+  text-rendering: geometricPrecision;
+}
+
+.miniFrame__value{
+  margin-top: -3px;   /* поднимаем цифру */
+  font-weight: 950;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+  color: var(--text);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+  text-rendering: geometricPrecision;
+}
+.miniFrame--read{
+  pointer-events: none;
+  opacity: 0.98;
+}
+
+/* чтобы read-only button не получал системный вид */
+.miniFrame--read:disabled{
+  opacity: 0.98;
+  -webkit-text-fill-color: currentColor;
+}
+
+.acBtn{
+  height: 56px;
+  width: 64px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.acBtn__icon{
+  height: 56px;
+  width: 56px;
+  filter: var(--iconFilter);
+  opacity: 0.95;
+}
+
+.acBtn__value{
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 950;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+  color: var(--text);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+}
+/* speed: icon чуть меньше и прозрачнее, цифра контрастнее */
+.speedBtn .acBtn__icon{
+  height: 50px;
+  width: 50px;
+  opacity: 0.55;
+}
+
+.speedBtn .acBtn__value{
+  color: var(--text);
+  text-shadow:
+    0 2px 14px rgba(0,0,0,0.75),
+    0 0 2px rgba(0,0,0,0.55);
+}
+.condBtn{
+  height: 48px;
+  width: 150px;
+  border: 0;
+  border-radius: 14px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  /* БЕЗ ФОНА: только яркий контур под тему */
+  background: transparent;
+  box-shadow:
+    0 12px 26px rgba(0,0,0,0.22),
+    0 0 0 1px color-mix(in srgb, var(--accent) 78%, transparent) inset,
+    0 0 0 2px color-mix(in srgb, var(--accent2) 42%, transparent) inset,
+    0 0 14px color-mix(in srgb, var(--glow) 24%, transparent);
+  position: relative;
+  transition: transform 120ms ease, box-shadow 160ms ease;
+}
+
+/* УБИРАЕМ нижнюю "полосу" — чтобы все 4 элемента выглядели одинаково */
+.condBtn::after{ display: none; }
+
+.condBtn:active{
+  transform: translateY(1px);
+  box-shadow:
+    0 14px 28px rgba(0,0,0,0.24),
+    0 0 0 1px color-mix(in srgb, var(--accent) 92%, transparent) inset,
+    0 0 0 2px color-mix(in srgb, var(--accent2) 52%, transparent) inset,
+    0 0 18px color-mix(in srgb, var(--glow) 38%, transparent);
+}
+
+.condBtn:focus-visible{
+  outline: none;
+  box-shadow:
+    0 14px 28px rgba(0,0,0,0.22),
+    0 0 0 1px color-mix(in srgb, var(--accent) 92%, transparent) inset,
+    0 0 0 2px color-mix(in srgb, var(--accent2) 56%, transparent) inset,
+    0 0 0 2px color-mix(in srgb, var(--accent) 65%, transparent),
+    0 0 20px color-mix(in srgb, var(--glow) 40%, transparent);
+}
+.condBtn__content{
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 0;
+}
+.condBtn__text{
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  color: color-mix(in srgb, var(--text) 74%, transparent);
+  white-space: nowrap;
+  text-align: center;
+}
+.condBtn__icons{
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.condBtn.has-selection .condBtn__text{ display: none; }
+.condBtn.has-selection .condBtn__icons{ display: flex; }
+
+.condBtn__chev{
+  width: 14px;
+  height: 14px;
+  opacity: 0.65;
+  filter: var(--iconFilter);
+  transition: transform 160ms ease, opacity 160ms ease;
+  position: absolute;
+  right: 10px;
+}
+.condBtn.is-open .condBtn__chev{
+  transform: rotate(180deg);
+  opacity: 0.85;
+}
+
+.condMiniIcon{
+  width: 18px;
+  height: 18px;
+  filter: var(--iconFilter);
+  opacity: 0.95;
+  position: relative;
+}
+
+.condMiniWrap{
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+
+.condBadge{
+  position: absolute;
+  right: -4px;
+  top: -4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: -0.2px;
+  color: #fff;
+  background: color-mix(in srgb, var(--accent) 70%, #000);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+}
+/* =========================
+   HP BUTTON (D&D Beyond-like)
+   ========================= */
+
+.hpBtn{
+  height: 48px;
+  width: 100%;
+  border: 0;
+  border-radius: 14px;
+  padding: 8px 10px 8px;
+  display: grid;
+  grid-template-rows: auto 6px;
+  gap: 6px;
+
+  /* БЕЗ ФОНА: такой же контур, как у СОСТОЯНИЙ/ВДОХНОВЕНИЯ/ИНИЦИАТИВЫ */
+  background: transparent;
+  box-shadow:
+    0 12px 26px rgba(0,0,0,0.22),
+    0 0 0 1px color-mix(in srgb, var(--accent) 78%, transparent) inset,
+    0 0 0 2px color-mix(in srgb, var(--accent2) 42%, transparent) inset,
+    0 0 14px color-mix(in srgb, var(--glow) 24%, transparent);
+  transition: transform 120ms ease, box-shadow 160ms ease;
+
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.hpBtn:active{
+  transform: translateY(1px);
+  box-shadow:
+    0 14px 28px rgba(0,0,0,0.24),
+    0 0 0 1px color-mix(in srgb, var(--accent) 92%, transparent) inset,
+    0 0 0 2px color-mix(in srgb, var(--accent2) 52%, transparent) inset,
+    0 0 18px color-mix(in srgb, var(--glow) 38%, transparent);
+}
+
+.hpBtn:focus-visible{
+  outline: none;
+  box-shadow:
+    0 14px 28px rgba(0,0,0,0.22),
+    0 0 0 1px color-mix(in srgb, var(--accent) 92%, transparent) inset,
+    0 0 0 2px color-mix(in srgb, var(--accent2) 56%, transparent) inset,
+    0 0 0 2px color-mix(in srgb, var(--accent) 65%, transparent),
+    0 0 20px color-mix(in srgb, var(--glow) 40%, transparent);
+}
+
+.hpBtn__top{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  padding-left: 22px;  /* компенсируем увеличенную иконку */
+}
+
+.hpBtn__center{
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  justify-content: center;
+}
+/* Иконка — зелёная (TEMP-theme), при минусе станет красной */
+.hpBtn__icon{
+  position: absolute;
+  left: 4px;               /* ближе к цифрам */
+  top: 50%;
+  transform: translateY(-50%);
+  display: block;
+
+  width: 25px;             /* было 14px */
+  height: 25px;            /* было 14px */
+
+  background: color-mix(in srgb, var(--ok) 70%, var(--text));
+  opacity: .95;
+
+  -webkit-mask: url("./assets/icons/puls.svg") center/contain no-repeat;
+  mask: url("./assets/icons/puls.svg") center/contain no-repeat;
+}
+
+.hpBtn__nums{
+  font-weight: 950;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  color: var(--text);
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.hpBtn__temp{
+  font-weight: 950;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  color: var(--ok);
+  opacity: 0.98;
+}
+
+/* NEGATIVE STATE: всё красное */
+.hpBtn.is-negative .hpBtn__icon{ background: var(--bad); }
+.hpBtn.is-negative .hpBtn__nums{ color: var(--bad); text-shadow: 0 0 12px color-mix(in srgb, var(--bad) 45%, transparent); }
+.hpBtn.is-negative .hpBtn__temp{ color: var(--bad); }
+
+/* BAR: max = фон, temp = зелёный слой, current = основной слой */
+.hpBtn__bar{
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08); /* MAX — спокойнее */
+  overflow: hidden;
+  position: relative;
+}
+html[data-theme="arcane"] .hpBtn__bar{ background: rgba(13,18,28,0.16); }
+
+.hpBtn__fill{
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+}
+
+.hpBtn__fill--temp{
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--ok) 56%, transparent),
+    color-mix(in srgb, var(--ok) 36%, transparent)
+  );
+  opacity: 0.95;
+}
+.hpBtn__fill--cur{
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--accent) 58%, transparent),
+    color-mix(in srgb, var(--accent) 36%, transparent)
+  );
+  opacity: 0.95;
+}
+/* =========================
+   HP MODAL TOP
+   ========================= */
+
+.hpTop{
+  padding: 8px 14px 10px;
+  display: grid;
+  place-items: center;
+}
+.hpTop__center{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hpTop__icon{
+  width: 22px;
+  height: 22px;
+  background: var(--ok);
+  opacity: .95;
+  -webkit-mask: url("./assets/icons/puls.svg") center/contain no-repeat;
+  mask: url("./assets/icons/puls.svg") center/contain no-repeat;
+}
+
+.hpTop__nums{
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.hpTop__text{
+  font-weight: 950;
+  font-size: 34px;
+  letter-spacing: 0.6px;
+  color: color-mix(in srgb, var(--accent) 55%, var(--text));
+}
+.hpTop__temp{
+  font-weight: 950;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  color: var(--ok);
+  opacity: 0.98;
+}
+
+.hpTop__center.is-negative .hpTop__icon{ background: var(--bad); }
+.hpTop__center.is-negative .hpTop__text{
+  color: var(--bad);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--bad) 45%, transparent);
+}
+.hpTop__center.is-negative .hpTop__temp{ color: var(--bad); }
+
+.hpActions{
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.hpAct{
+  height: 44px;
+  border: 0;
+  border-radius: 14px;
+  font-weight: 950;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: color-mix(in srgb, var(--text) 90%, transparent);
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+}
+html[data-theme="arcane"] .hpAct{
+  background: rgba(13,18,28,0.10);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.14);
+}
+
+.hpAct--temp{
+  background: color-mix(in srgb, var(--ok) 10%, rgba(255,255,255,0.06));
+  color: color-mix(in srgb, var(--ok) 68%, var(--text));
+}
+html[data-theme="arcane"] .hpAct--temp{
+  background: color-mix(in srgb, var(--ok) 10%, rgba(13,18,28,0.10));
+}
+
+.hpAct--ok{
+  background: color-mix(in srgb, var(--ok) 14%, rgba(255,255,255,0.06));
+  color: color-mix(in srgb, var(--ok) 74%, var(--text));
+}
+html[data-theme="arcane"] .hpAct--ok{
+  background: color-mix(in srgb, var(--ok) 14%, rgba(13,18,28,0.10));
+}
+
+.hpAct--bad{
+  background: color-mix(in srgb, var(--bad) 14%, rgba(255,255,255,0.06));
+  color: color-mix(in srgb, var(--bad) 76%, var(--text));
+}
+html[data-theme="arcane"] .hpAct--bad{
+  background: color-mix(in srgb, var(--bad) 14%, rgba(13,18,28,0.10));
+}
+/* =========================
+   AC SHEET
+   ========================= */
+
+.acSheet{ padding: 12px 14px 16px; }
+
+
+.acSheet__grid{
+  display: grid;
+  grid-template-columns: 1fr 120px 1fr;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.acSheet__left{
+  min-height: 86px;
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--panel) 70%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+}
+
+.acSheet__left .invCalcLine{
+  border-top: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
+  padding-top: 7px;
+  font-size: 12px;
+}
+.acSheet__left .invCalcLine:first-child{
+  border-top: 0;
+  padding-top: 0;
+}
+
+.acSheet__right{
+  min-height: 86px;
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--panel) 70%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  display: grid;
+  gap: 10px;
+}
+
+.acOptRow{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  line-height: 1.15;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  user-select: none;
+}
+.acOptRow__chk{
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+.acExtraRow__label{
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  opacity: 0.82;
+  margin-bottom: 6px;
+}
+
+.acExtraRow__input{
+  width: 100%;
+  height: 36px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--line) 75%, transparent);
+  background: color-mix(in srgb, var(--panel2) 68%, transparent);
+  outline: none;
+  padding: 0 10px;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.acExtraRow__input:focus{
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.acSheet__input[readonly]{
+  cursor: default;
+}
+
+.acSheet__shield{
+  position: relative;
+  height: 86px;
+  display: grid;
+  place-items: center;
+  margin: 0;
+}
+
+
+.acSheet__icon{
+  width: 78px;
+  height: 78px;
+  filter: var(--iconFilter);
+  opacity: 0.95;
+}
+
+.acSheet__input{
+  position: absolute;
+  width: 90px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  outline: none;
+  text-align: center;
+  font-weight: 950;
+  font-size: 24px;
+  color: var(--text);
+}
+
+.acSheet__actions{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.btnGhost,
+.btnOk{
+  height: 44px;
+  border: 0;
+  border-radius: 14px;
+  font-weight: 900;
+  letter-spacing: 1.6px;
+  font-size: 12px;
+}
+
+.btnGhost{
+  background: rgba(255,255,255,0.06);
+  color: color-mix(in srgb, var(--text) 80%, transparent);
+}
+
+html[data-theme="arcane"] .btnGhost{ background: rgba(13,18,28,0.08); }
+
+.btnOk{
+  background: color-mix(in srgb, var(--accent) 42%, rgba(255,255,255,0.04));
+  color: var(--text);
+  filter: drop-shadow(0 0 10px var(--glow));
+}
+
+/* =========================
+   CONDITIONS MODAL
+   ========================= */
+
+.condModal{
+  padding: 8px 12px calc(18px + var(--safeBottom));
+  overflow: auto;
+  height: calc(100vh - 54px);
+}
+
+.condList{ display: flex; flex-direction: column; }
+
+.condItem{
+  border-radius: 16px;
+  background: rgba(255,255,255,0.04);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+html[data-theme="arcane"] .condItem{ background: rgba(13,18,28,0.05); }
+
+.condItem__top{
+  height: 52px;
+  display: grid;
+  grid-template-columns: 34px 22px 1fr 22px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+}
+
+.condCheck{
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--text) 22%, transparent);
+  background: rgba(255,255,255,0.02);
+  position: relative;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+}
+
+html[data-theme="arcane"] .condCheck{
+  border-color: color-mix(in srgb, var(--text) 22%, transparent);
+}
+
+.condItem.is-on .condCheck{
+  background: color-mix(in srgb, var(--accent) 28%, rgba(255,255,255,0.04));
+  border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  box-shadow:
+    inset 0 10px 18px rgba(255,255,255,0.10),
+    inset 0 -10px 18px rgba(0,0,0,0.18),
+    0 0 14px rgba(0,0,0,0.12);
+}
+
+.condItem.is-on .condCheck::after{
+  content:"";
+  position:absolute;
+  inset: 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 70%, rgba(255,255,255,0.12));
+  box-shadow:
+    inset 0 6px 10px rgba(255,255,255,0.18),
+    inset 0 -6px 10px rgba(0,0,0,0.20);
+}
+.condIcon{
+  width: 20px;
+  height: 20px;
+  filter: var(--iconFilter);
+  opacity: 0.95;
+}
+
+.condName{
+  font-size: 14px;
+  font-weight: 800;
+  color: color-mix(in srgb, var(--text) 88%, transparent);
+}
+
+.condChev{
+  width: 16px;
+  height: 16px;
+  opacity: 0.75;
+  filter: var(--iconFilter);
+  transition: transform 160ms ease;
+}
+
+.condItem.is-open .condChev{ transform: rotate(180deg); }
+
+.condDesc{
+  padding: 0 12px 12px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 18px;
+  display: none;
+}
+
+.condItem.is-open .condDesc{
+  display: grid;
+  gap: 10px;
+}
+
+.condP{
+  color: color-mix(in srgb, var(--text) 86%, transparent);
+}
+
+.condSep{
+  height: 1px;
+  width: 100%;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 42%, transparent);
+  opacity: 0.95;
+}
+
+html[data-theme="arcane"] .condSep{
+  background: color-mix(in srgb, var(--accent) 32%, transparent);
+  opacity: 0.98;
+}
+
+.condDivider{
+  height: 1px;
+  background: var(--line);
+  margin: 10px 4px 14px;
+}
+/* =========================
+   Condition description paragraphs
+   ========================= */
+
+.condDesc{
+  display: grid;
+  gap: 10px;
+}
+
+.condP{
+  font-size: 13px;
+  line-height: 1.35;
+  color: color-mix(in srgb, var(--text) 86%, transparent);
+}
+
+.condSep{
+  height: 1px;
+  width: 100%;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 40%, transparent);
+  opacity: 0.9;
+}
+
+html[data-theme="arcane"] .condSep{
+  background: color-mix(in srgb, var(--accent) 32%, transparent);
+  opacity: 0.95;
+}
+/* =========================
+   EXHAUSTION
+   ========================= */
+
+.exhRow{
+  border-radius: 16px;
+  background: rgba(255,255,255,0.04);
+  overflow: hidden;
+}
+
+html[data-theme="arcane"] .exhRow{ background: rgba(13,18,28,0.05); }
+
+.exhRow__main{
+  width: 100%;
+  height: 56px;
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  gap: 10px;
+}
+
+.exhRow__left{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.exhRow__right{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.exhLevel{
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: color-mix(in srgb, var(--text) 72%, transparent);
+}
+
+.exhLevel__label{
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+.exhLevel__value{
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+}
+
+.exhRow.is-open .condChev{ transform: rotate(180deg); }
+
+.exhRow__body{
+  padding: 0 12px 12px;
+  display: none;
+}
+
+.exhRow.is-open .exhRow__body{ display: block; }
+
+.exhPicker{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  padding: 10px 0 10px;
+}
+
+.exhPill{
+  height: 34px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255,255,255,0.06);
+  color: color-mix(in srgb, var(--text) 86%, transparent);
+  font-weight: 900;
+}
+
+html[data-theme="arcane"] .exhPill{ background: rgba(13,18,28,0.08); }
+
+.exhPill.is-active{
+  background: color-mix(in srgb, var(--accent) 60%, rgba(255,255,255,0.06));
+  color: color-mix(in srgb, var(--text) 96%, transparent);
+  box-shadow:
+    0 10px 18px rgba(0,0,0,0.20),
+    inset 0 10px 16px rgba(255,255,255,0.10),
+    inset 0 -10px 16px rgba(0,0,0,0.18);
+  filter: drop-shadow(0 0 14px var(--glow));
+}
+
+html[data-theme="lichking"] .exhPill.is-active{
+  background: color-mix(in srgb, var(--accent) 70%, rgba(255,255,255,0.10));
+}
+/* =========================
+   BODY
+   ========================= */
+
+.charBody {
+  /* the strip stays on top, swipe area only below it */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  padding: 10px 14px calc(14px + var(--safeBottom));
+}
+
+/* ===== Section strip (the ONLY framed thing here) ===== */
+.sectionBar{
+  width: 100%;
+  cursor: pointer;
+
+  position: relative;
+
+  /* убираем любую заливку, даже если её задают общие стили кнопок */
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+
+  border: 0;
+  border-radius: 13px;
+
+  display: grid;
+  grid-template-columns: 24px 1fr 24px;
+  align-items: center;
+  gap: 10px;
+
+  padding: 8px 12px;
+
+  color: var(--text);
+}
+/* градиент ТОЛЬКО на бордере */
+/* базовый бордер-шейп (вырезанный центр) */
+.sectionBar::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 13px;
+  padding: 1px;
+  pointer-events: none;
+
+  /* дефолт на всякий */
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--accent) 70%, transparent),
+    color-mix(in srgb, var(--text) 18%, transparent),
+    color-mix(in srgb, var(--accent) 50%, transparent)
+  );
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+/* ===== Cataclysm (molten) — меняем ТОЛЬКО градиент рамки ===== */
+html[data-theme="molten"] .sectionBar::before{
+  background: linear-gradient(90deg,
+    #ff9d2e 0%,
+    #ff4d00 35%,
+    #ff9d2e 65%,
+    #ffb347 100%
+  );
+}
+
+/* ===== Lich King (arcane) — меняем ТОЛЬКО градиент рамки ===== */
+html[data-theme="arcane"] .sectionBar::before{
+  background: linear-gradient(90deg,
+    #6ecbff 0%,
+    #2b6cff 35%,
+    #7a5cff 65%,
+    #9dd8ff 100%
+  );
+}
+/* ===== Legion — меняем ТОЛЬКО градиент рамки ===== */
+html[data-theme="legion"] .sectionBar::before{
+  background: linear-gradient(90deg,
+    #a7ff1a 0%,
+    #00ff9a 35%,
+    #7d2bff 65%,
+    #caff4a 100%
+  );
+}
+.sectionBar__title{
+  /* тоньше/компактнее */
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  text-transform: none;
+  text-align: left;
+  font-size: 15px;
+  line-height: 1.05;
+  color: color-mix(in srgb, var(--text) 88%, transparent);
+}
+
+.sectionBar__icon,
+.sectionBar__rightIcon{
+  /* НЕ уменьшаю */
+  width: 24px;
+  height: 24px;
+  display: block;
+  opacity: 0.95;
+  filter: var(--iconFilter);
+}
+/* ===== Swipe area ===== */
+.sectionsPager{
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 18px; /* not a frame; just clip */
+
+  /* allow vertical scroll inside panels, but keep pointer events stable for horizontal swipe */
+  touch-action: pan-y;
+}
+.sectionsTrack{
+  height: 100%;
+  display: flex;
+  width: 100%;
+  will-change: transform;
+  transition: transform 220ms ease;
+}
+
+.secPanel{
+  width: 100%;
+  flex: 0 0 100%;
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* empty padding area for now (content will appear later) */
+.secPad{
+  padding: 2px 0 18px 0;
+  height: 120px;
+}
+
+/* =========================
+   PERSONALITY
+   ========================= */
+.personalitySec{
+  height: auto;
+  padding: 10px 12px calc(18px + var(--safeBottom));
+}
+
+.persGrid2{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+  margin-top: 12px;
+}
+.persGrid2:first-child{ margin-top: 0; }
+
+.persLineField{
+  display: grid;
+  grid-template-rows: 28px 1px auto;
+  gap: 8px;
+  min-width: 0;
+}
+
+.persLineField__input{
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: color-mix(in srgb, var(--text) 96%, transparent);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 0;
+}
+.persLineField__input::placeholder{ color: transparent; }
+
+.persLineField__line{
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: color-mix(in srgb, var(--line) 96%, transparent);
+}
+
+.persLineField__label,
+.persBlockBtn__title{
+  font-size: 11px;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: 0;
+  color: color-mix(in srgb, var(--text) 82%, transparent);
+}
+
+.persBlockBtn{
+  width: 100%;
+  margin-top: 18px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  text-align: left;
+  color: inherit;
+}
+
+.persBlockBtn__head{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+.persBlockBtn--solo{
+  margin-top: 0;
+}
+
+.persBlockBtn__chev{
+  width: 11px;
+  height: 11px;
+  filter: var(--iconFilter);
+  opacity: 0.82;
+  transform: rotate(180deg);
+}
+
+.persBlockBtn__box{
+  margin-top: 6px;
+  min-height: 44px;
+  border-radius: 3px;
+  border: 1px solid color-mix(in srgb, var(--line) 98%, transparent);
+  background: color-mix(in srgb, var(--bg2) 28%, transparent);
+  display: flex;
+  align-items: stretch;
+}
+
+.persBlockBtn__preview{
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  font-size: 13px;
+  line-height: 1.35;
+  white-space: pre-wrap;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+.persBlockBtn__preview:empty::before{
+  content: " ";
+}
+
+.persTextModal__panel{
+  display: flex;
+  flex-direction: column;
+}
+
+.persTextModal__body{
+  flex: 1 1 auto;
+  padding: 0 14px;
+}
+
+.persTextModal__textarea{
+  min-height: calc(100vh - 112px - var(--safeBottom));
+  border-radius: 16px;
+  resize: none;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.persTextModal__actions{
+  padding: 14px;
+  padding-bottom: calc(14px + var(--safeBottom));
+}
+
+.persTextModal__save{
+  width: 100%;
+  min-height: 48px;
+}
+/* =========================
+   INVENTORY (tabs + coin button)
+   ========================= */
+
+.inv{
+  padding: 8px 10px calc(18px + var(--safeBottom));
+}
+
+.invTabs{
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.invTab{
+  height: 38px;
+  border: 0;
+  border-radius: 0;
+  background: rgba(255,255,255,0.05);
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+html[data-theme="arcane"] .invTab{ background: rgba(13,18,28,0.06); }
+
+.invTab__icon{
+  width: 18px;
+  height: 18px;
+  display: block;
+  filter: var(--iconFilter);
+  opacity: 0.92;
+}
+
+.invTab.is-active{
+  background: color-mix(in srgb, var(--accent) 16%, rgba(255,255,255,0.05));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 36%, transparent) inset;
+}
+/* fix: first/last tile corners when active */
+.invTab.is-active:first-child{
+  border-top-left-radius: 14px;
+  border-bottom-left-radius: 14px;
+}
+.invTab.is-active:last-child{
+  border-top-right-radius: 14px;
+  border-bottom-right-radius: 14px;
+}
+
+.invTab.is-active .invTab__icon{
+  opacity: 1;
+}
+
+.invPanels{
+  margin-top: 10px;
+}
+
+.invPanel{ display: none; }
+.invPanel.is-active{ display: block; }
+
+.invHead{
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0 8px;
+}
+
+.invTitle{
+  font-family: Cinzel, serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+
+.invGoldBtn{
+  border: 0;
+  background: transparent;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.invGoldBtn__icon{
+  width: 18px;
+  height: 18px;
+  display: block;
+  opacity: 0.95;
+}
+
+.invLogBtn{
+  border: 0;
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset;
+  border-radius: 12px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+}
+.invLogBtn__icon{
+  width: 16px;
+  height: 16px;
+  filter: var(--iconFilter);
+  opacity: 0.95;
+}
+
+/* coin icons are colored by meaning (not by theme) */
+.coinIcon{
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+.coinIcon--gold{ filter: brightness(0) saturate(100%) invert(79%) sepia(42%) saturate(604%) hue-rotate(3deg) brightness(96%) contrast(92%); }
+.coinIcon--silver{ filter: brightness(0) saturate(100%) invert(85%) sepia(4%) saturate(280%) hue-rotate(169deg) brightness(103%) contrast(92%); }
+.coinIcon--copper{ filter: brightness(0) saturate(100%) invert(45%) sepia(66%) saturate(485%) hue-rotate(347deg) brightness(96%) contrast(92%); }
+.coinIcon--platinum{ filter: brightness(0) saturate(100%) invert(92%) sepia(6%) saturate(140%) hue-rotate(163deg) brightness(102%) contrast(90%); }
+.coinIcon--electrum{ filter: brightness(0) saturate(100%) invert(74%) sepia(22%) saturate(407%) hue-rotate(62deg) brightness(101%) contrast(92%); }
+/* =========================
+   COINS CALC
+   ========================= */
+
+.coinsCalc{
+  padding: 0 14px calc(18px + var(--safeBottom));
+}
+
+.coinsTop{
+  padding: 0 0 4px;
+}
+.coinsTop__title{
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+#coinsTotalGold{
+  color: color-mix(in srgb, var(--text) 96%, transparent);
+}
+
+.coinsRow{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 2px 0 8px;
+}
+.coinChip{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.coinChip__icon{ width: 18px; height: 18px; }
+.coinChip__val{
+  font-weight: 700;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+
+.coinsInputRow{
+  position: relative;
+  margin-top: 2px;
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  gap: 10px;
+  align-items: center;
+}
+
+.coinDenomBtn{
+  width: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+html[data-theme="arcane"] .coinDenomBtn{ background: rgba(13,18,28,0.06); }
+
+.coinDenomBtn__icon{ width: 18px; height: 18px; }
+.coinDenomBtn__caret{
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: 12px;
+  height: 12px;
+  filter: var(--iconFilter);
+  opacity: 0.7;
+}
+
+.coinsInput{
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 12px;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.4px;
+  color: color-mix(in srgb, var(--text) 94%, transparent);
+}
+html[data-theme="arcane"] .coinsInput{ background: rgba(13,18,28,0.06); }
+
+.coinsBackspace{
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  display: grid;
+  place-items: center;
+}
+html[data-theme="arcane"] .coinsBackspace{ background: rgba(13,18,28,0.06); }
+.coinsBackspace__icon{
+  width: 22px;
+  height: 22px;
+  filter: var(--iconFilter);
+  opacity: 0.9;
+}
+
+.coinDenomPopover{
+  position: absolute;
+  left: 0;
+  top: 46px;
+  min-width: 180px;
+  padding: 6px;
+}
+
+.coinDenomPick{
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  padding: 8px 10px;
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 10px;
+  align-items: center;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  text-align: left;
+}
+.coinDenomPick:hover{
+  background: rgba(255,255,255,0.06);
+}
+.coinDenomPick__icon{ width: 18px; height: 18px; }
+.coinDenomPick__text{
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.coinsGrid{
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 44px;
+  gap: 10px;
+  align-items: start;
+}
+/* coins keypad: all keys same size */
+.coinsCalc .keypad{
+  gap: 10px;
+  margin-bottom: 0;
+}
+
+.coinsCalc .key{
+  height: 44px;
+  border-radius: 12px;
+  font-size: 20px;
+}
+.coinsKeypad.keypad{
+  margin: 0;
+}
+
+.key--ghost{
+  opacity: 0;
+  pointer-events: none;
+}
+
+.key--bad{
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--text) 88%, transparent);
+  background: rgba(255, 90, 90, 0.12);
+  box-shadow: 0 0 0 1px rgba(255, 90, 90, 0.22) inset;
+}
+
+.key--ok{
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--text) 88%, transparent);
+  background: color-mix(in srgb, var(--accent) 18%, rgba(255,255,255,0.05));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent) inset;
+}
+
+.coinsConvCol{
+  display: grid;
+  grid-auto-rows: 44px;
+  gap: 10px;
+}
+
+.coinConv{
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  padding: 0;
+  display: grid;
+  grid-template-rows: 12px 1fr;
+  align-items: center;
+  justify-items: center;
+  gap: 2px;
+}
+html[data-theme="arcane"] .coinConv{ background: rgba(13,18,28,0.06); }
+
+.coinConv__val{
+  font-weight: 800;
+  font-size: 10px;
+  line-height: 1;
+  opacity: 0.9;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+
+.coinConv__icon{ width: 18px; height: 18px; }
+
+.coinsActions{
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.coinsAct{
+  height: 44px;
+  border: 0;
+  border-radius: 14px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+.coinsAct--bad{
+  background: rgba(255,90,90,0.12);
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  box-shadow: 0 0 0 1px rgba(255,90,90,0.25) inset;
+}
+.coinsAct--ok{
+  background: color-mix(in srgb, var(--accent) 22%, rgba(255,255,255,0.06));
+  color: color-mix(in srgb, var(--text) 94%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 38%, transparent) inset;
+}
+
+.invGoldBtn__value{
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  color: color-mix(in srgb, var(--text) 90%, transparent);
+}
+
+.invEmpty{
+  margin-top: 12px;
+  padding: 14px 0;
+  border-top: 1px solid color-mix(in srgb, var(--line) 85%, transparent);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* =========================
+   INVENTORY ITEMS (weapons table + lists + editor)
+   ========================= */
+
+.invWeapons{
+  border-top: 1px solid color-mix(in srgb, var(--line) 85%, transparent);
+  padding-top: 10px;
+}
+
+.invWHead{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px minmax(140px, 1fr) 28px;
+  gap: 8px;
+  padding: 0 0 6px;
+  color: color-mix(in srgb, var(--muted) 85%, transparent);
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.invWCol{ opacity: 0.9; }
+.invWCol--bonus{ text-align: center; }
+.invWCol--dmg{ text-align: left; }
+.invWCol--info{ text-align: right; }
+
+/* Inventory headers/rows for non-weapon lists (same style as weapons header) */
+.invSHead{
+  display: grid;
+  gap: 8px;
+  padding: 0 0 6px;
+  color: color-mix(in srgb, var(--muted) 85%, transparent);
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.invSHead--armor{
+  grid-template-columns: minmax(0, 1fr) 52px 52px 28px;
+}
+.invSHead--qty{
+  grid-template-columns: minmax(0, 1fr) 52px 28px;
+}
+.invSCol{ opacity: 0.9; }
+.invSCol--ac,
+.invSCol--qty{ text-align: center; }
+.invSCol--info{ text-align: right; }
+
+.invSList{
+  display: grid;
+  gap: 6px;
+}
+
+/* rows */
+.invSRow{
+  display: grid;
+  gap: 8px;
+  align-items: center;
+  min-height: 40px;
+  padding: 10px 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  border-top: 1px solid color-mix(in srgb, var(--line) 65%, transparent);
+}
+.invSRow:first-child{ border-top: 0; }
+
+.invSRow--armor{
+  grid-template-columns: minmax(0, 1fr) 52px 52px 28px;
+}
+.invSRow--qty{
+  grid-template-columns: minmax(0, 1fr) 52px 28px;
+}
+
+/* sort mode mirrors weapons */
+.invSRow.is-sort.invSRow--armor{
+  grid-template-columns: 28px minmax(0, 1fr) 52px 52px 28px;
+}
+.invSRow.is-sort.invSRow--qty{
+  grid-template-columns: 28px minmax(0, 1fr) 52px 28px;
+}
+
+.invSName{ min-width: 0; }
+
+.invSNum{
+  border: 0;
+  background: color-mix(in srgb, var(--bg2) 46%, transparent);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--text) 14%, transparent) inset,
+    0 10px 22px rgba(0,0,0,0.35);
+  border-radius: 10px;
+  min-height: 34px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-weight: 900;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+html[data-theme="arcane"] .invSNum{ background: rgba(13,18,28,0.06); }
+
+.invSInfo{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+}
+.invSRow:not(.has-info) .invSInfo{ visibility: hidden; }
+
+.invWList{
+  display: grid;
+  gap: 6px;
+}
+
+.invWRow{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px minmax(140px, 1fr) 28px;
+  gap: 8px;
+  align-items: center;
+  min-height: 40px;
+  padding: 10px 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  border-top: 1px solid color-mix(in srgb, var(--line) 65%, transparent);
+}
+.invWRow:first-child{ border-top: 0; }
+html[data-theme="arcane"] .invWRow{ background: transparent; }
+
+.invWName{ min-width: 0; }
+
+.invWNameBtn{
+  border: 0;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+  font-weight: 800;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+}
+.invWNameBtn__text{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.invEquipDot{
+  width: 8px;
+  height: 8px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--accent) 75%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent) inset;
+  flex: 0 0 auto;
+}
+
+.invWInfo{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+}
+
+/* keep the column, but hide empty info cell */
+.invWRow:not(.has-info) .invWInfo{ visibility: hidden; }
+
+.invInfoBtn{
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+html[data-theme="arcane"] .invInfoBtn{ background: transparent; }
+
+.invInfoBtn__icon{
+  width: 18px;
+  height: 18px;
+  filter: var(--iconFilter);
+  opacity: 0.95;
+}
+.invWBonus,
+.invWDmg{
+  border: 0;
+  background: color-mix(in srgb, var(--bg2) 46%, transparent);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--text) 14%, transparent) inset,
+    0 10px 22px rgba(0,0,0,0.35);
+  border-radius: 10px;
+  min-height: 34px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+html[data-theme="arcane"] .invWBonus,
+html[data-theme="arcane"] .invWDmg{
+  background: rgba(13,18,28,0.06);
+}
+
+.invWBonus{
+  justify-content: center;
+  font-weight: 900;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+
+.invWDmg{
+  justify-content: flex-start;
+  font-weight: 800;
+  font-size: 12px;
+  color: color-mix(in srgb, var(--text) 88%, transparent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* sort mode */
+.invWRow.is-sort{
+  grid-template-columns: 28px minmax(0, 1fr) 44px minmax(140px, 1fr) 28px;
+}
+.invSortArrows{
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+}
+.invArrowBtn{
+  width: 24px;
+  height: 16px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.06);
+  display: grid;
+  place-items: center;
+}
+html[data-theme="arcane"] .invArrowBtn{ background: rgba(13,18,28,0.06); }
+
+.invArrowBtn__icon{
+  width: 12px;
+  height: 12px;
+  filter: var(--iconFilter);
+  opacity: 0.85;
+}
+.invArrowBtn--up .invArrowBtn__icon{ transform: rotate(180deg); }
+
+.invList{
+  margin-top: 8px;
+  border-top: 1px solid color-mix(in srgb, var(--line) 85%, transparent);
+  padding-top: 6px;
+  display: grid;
+  gap: 0;
+}
+
+.invRow{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  min-height: 40px;
+  padding: 10px 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  border-top: 1px solid color-mix(in srgb, var(--line) 65%, transparent);
+}
+.invRow:first-child{ border-top: 0; }
+
+/* sort mode for simple lists */
+.invRow.is-sort{
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+}
+
+.invRowBtn{
+  border: 0;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+  font-weight: 800;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+
+/* meta pills (AC / qty) */
+.invRowMetaPills{
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.invPill{
+  border: 0;
+  background: color-mix(in srgb, var(--bg2) 46%, transparent);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--text) 14%, transparent) inset,
+    0 10px 22px rgba(0,0,0,0.35);
+  border-radius: 10px;
+  min-height: 34px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  font-weight: 900;
+  font-size: 12px;
+  color: color-mix(in srgb, var(--text) 90%, transparent);
+}
+html[data-theme="arcane"] .invPill{
+  background: rgba(13,18,28,0.06);
+}
+
+/* footer actions */
+.invFoot{
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  gap: 10px;
+  align-items: center;
+}
+.invFoot--single{
+  grid-template-columns: 1fr 44px;
+}
+.invIconBtn{
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  display: grid;
+  place-items: center;
+}
+html[data-theme="arcane"] .invIconBtn{ background: rgba(13,18,28,0.06); }
+.invIconBtn__icon{
+  width: 18px;
+  height: 18px;
+  filter: var(--iconFilter);
+  opacity: 0.9;
+}
+
+.invPlusBtn{
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent) 18%, rgba(255,255,255,0.06));
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent) inset;
+}
+.invPlusBtn__icon{
+  width: 18px;
+  height: 18px;
+  filter: var(--iconFilter);
+  opacity: 0.95;
+}
+
+/* rarity colors (not theme-based) */
+.rarity--common{ color: color-mix(in srgb, var(--text) 92%, transparent); }
+.rarity--uncommon{ color: #1eff00; }
+.rarity--rare{ color: #0070dd; }
+.rarity--very_rare{ color: #a335ee; }
+.rarity--legendary{ color: #ff8000; }
+.rarity--artifact{ color: #e84a4a; }
+
+/* Inventory editor */
+.invEdit{
+  padding: 0 14px calc(18px + var(--safeBottom));
+}
+.invEdit__top{
+  padding: 0 0 10px;
+}
+.invEdit__title{
+  font-family: Cinzel, serif;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0.6px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+.invEdit__sub{
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.invEdit__grid{
+  display: grid;
+  gap: 12px;
+}
+
+.invEdit__block{
+  display: grid;
+  gap: 12px;
+}
+.invEdit__block--hidden{
+  display: none;
+}
+
+/* weapon editor: make extra/damage inputs more readable */
+#invEditWeaponExtra,
+#invEditWeaponDamage{
+  background: color-mix(in srgb, var(--bg2) 46%, transparent);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--text) 14%, transparent) inset,
+    0 10px 22px rgba(0,0,0,0.35);
+}
+html[data-theme="arcane"] #invEditWeaponExtra,
+html[data-theme="arcane"] #invEditWeaponDamage{
+  background: rgba(13,18,28,0.06);
+}
+
+.textarea{
+  width: 100%;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  padding: 10px 12px;
+  font-size: 13px;
+  outline: none;
+  resize: vertical;
+  min-height: 110px;
+}
+html[data-theme="arcane"] .textarea{ background: rgba(255,255,255,0.08); }
+.textarea::placeholder{ color: color-mix(in srgb, var(--muted) 60%, transparent); }
+
+.invToggle{
+  width: 100%;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset;
+  padding: 12px 12px;
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 10px;
+  align-items: center;
+  text-align: left;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+html[data-theme="arcane"] .invToggle{ background: rgba(13,18,28,0.06); }
+.invToggle__dot{
+  width: 12px;
+  height: 12px;
+  border-radius: 99px;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--line) 70%, transparent) inset;
+}
+.invToggle[aria-pressed="true"] .invToggle__dot{
+  background: color-mix(in srgb, var(--accent) 70%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 35%, transparent) inset;
+}
+.invToggle__text{
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+}
+
+.invEdit__actions{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+.invAct{
+  height: 44px;
+  border: 0;
+  border-radius: 14px;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+
+  /* базовый фон чтобы не становилась белой в модалках */
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset;
+}
+.invAct--ghost{
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset;
+}
+html[data-theme="arcane"] .invAct--ghost{ background: rgba(13,18,28,0.06); }
+
+/* смысловые цвета (мягкие, не кислотные) */
+#invItemModal #invEditEquipBtn.invAct--ghost{
+  background: rgba(60,200,120,0.14);
+  box-shadow: 0 0 0 1px rgba(60,200,120,0.28) inset;
+}
+#invItemModal #invEditSellBtn.invAct--ghost{
+  background: rgba(80,160,255,0.12);
+  box-shadow: 0 0 0 1px rgba(80,160,255,0.25) inset;
+}
+
+.invAct--bad{
+  background: rgba(255,90,90,0.12);
+  box-shadow: 0 0 0 1px rgba(255,90,90,0.25) inset;
+}
+/* invNotes modal: убрать верхнюю пустоту (как в invItemModal) */
+#invNotesModal .modal__panel{ position: relative; }
+#invNotesModal .modal__head{
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  padding: 0;
+  z-index: 5;
+}
+/* notes modal */
+.invNotes{
+  padding: 14px 14px calc(18px + var(--safeBottom));
+}
+.invNotes__title{
+  font-family: Cinzel, serif;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0.6px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+.invNotes__body{
+  margin-top: 10px;
+  white-space: pre-wrap;
+  line-height: 1.35;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--text) 88%, transparent);
+}
+
+/* =========================
+   ABILITIES & SKILLS (section)
+   ========================= */
+
+.abilities{
+  padding: 10px 14px 18px 14px;
+  display: grid;
+  gap: 14px;
+}
+
+.abilityBlock{
+  display: grid;
+  gap: 8px;
+}
+
+.abilityTop{
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 2px 0 2px;
+}
+
+.abilityName{
+  font-family: "Cinzel", system-ui, serif;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-size: 22px;
+  line-height: 1;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+
+.abilityLine{
+  height: 1px;
+  background: color-mix(in srgb, var(--text) 18%, transparent);
+}
+.abilityScoreBtn{
+  height: auto;
+  min-width: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  border: 0; /* ✅ рамку убрали */
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  font-family: "Cinzel", system-ui, serif; /* ✅ как у характеристики */
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  font-size: 22px; /* ✅ как у .abilityName */
+  line-height: 1;
+}
+
+
+.abilityMiniRow{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.miniField{
+  position: relative;
+  height: 30px;
+  border-radius: 12px;
+  border: 0;                 /* рамку рисуем ::before */
+  background: transparent;
+  display: grid;
+  grid-template-columns: 1fr 48px;
+  align-items: center;
+  padding: 0 8px 0 12px;
+  overflow: visible;
+}
+
+/* рамка, укороченная до квадратика */
+.miniField::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:2px;
+  bottom:2px;
+
+  /* РУЧКА: длина рамки справа (меньше = длиннее) */
+  right:28px;
+
+  border: 1px solid color-mix(in srgb, var(--text) 14%, transparent);
+
+  /* ✅ левый бок прямой и закрытый, углы чуть более закруглены */
+  border-radius: 6px 12px 12px 6px;
+
+  pointer-events:none;
+  z-index: 1;
+}
+/* ✅ спасбросок: левый край рамки двигается вместе с радио (см. ручку ниже) */
+.miniField--toggle::before{
+  left: var(--miniDotX, 0px);
+}
+.miniLabel{
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 10px;
+  color: color-mix(in srgb, var(--text) 68%, transparent);
+  white-space: nowrap;
+}
+
+/* ПРОВЕРКА: визуально центрируем текст по высоте рамки */
+.abilityMiniRow .miniField:not(.miniField--toggle){
+  transform: none;
+}
+.abilityMiniRow .miniField:not(.miniField--toggle) .miniLabel{
+  transform: translateY(-1px);
+}
+
+.miniValue{
+  height: 34px;              /* выше чем рамка */
+  width: 46px;               /* уже */
+  justify-self: end;
+  margin-right: -2px;
+  margin-top: -2px;          /* ВАЖНО: центрируем по рамке (как на примере) */
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--text) 26%, transparent);
+  background: color-mix(in srgb, var(--bg2) 78%, var(--text) 22%); /* матовая заливка */
+  display: grid;
+  place-items: center;
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 16px;
+  color: color-mix(in srgb, var(--text) 96%, transparent);
+  box-shadow:
+    0 10px 24px color-mix(in srgb, var(--glow) 18%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--text) 10%, transparent) inset;
+  z-index: 3;                /* модификатор поверх рамки */
+}
+.miniField--toggle{
+  grid-template-columns: 1fr 48px;
+  padding-left: 12px;
+}
+.miniToggle{
+  position: relative;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  /* ✅ РУЧКА: двигай радио левее/правее (отрицательное = левее) */
+  --miniDotX: -6px;
+
+  margin-left: calc(-7px + var(--miniDotX));
+  padding: 0 4px 0 calc(18px + var(--miniDotX));
+
+  /* ✅ поднимаем весь тумблер над рамкой miniField::before */
+  z-index: 4;
+
+  transform: translateY(-1px);
+
+  cursor: pointer;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* ✅ МАСКА: перекрывает линию рамки под кружком на 100% */
+.miniToggle::before{
+  content:"";
+  position:absolute;
+  left: calc(var(--miniDotX) - 2px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+
+  /* непрозрачная подложка под кружком */
+  background: var(--bg2);
+
+  pointer-events:none;
+  z-index: 4;
+}
+
+.miniToggleDot{
+  position: absolute;
+  left: var(--miniDotX);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+
+  background: var(--bg2);
+
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--text) 10%, transparent) inset;
+
+  pointer-events: none;
+  z-index: 5;
+}
+
+.miniToggle[aria-pressed="true"] .miniToggleDot{
+  border-color: color-mix(in srgb, var(--accent) 92%, transparent);
+  background:
+    radial-gradient(circle at 35% 35%,
+      color-mix(in srgb, var(--accent) 95%, #fff 5%) 0%,
+      color-mix(in srgb, var(--accent) 70%, transparent) 45%,
+      color-mix(in srgb, var(--bg2) 92%, transparent) 78%
+    );
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent) inset,
+    0 10px 18px color-mix(in srgb, var(--glow) 20%, transparent);
+}
+
+.skillsList{
+  display: grid;
+
+  /* ✅ gap чуть больше между рамками модификаторов (не меняя размеры элементов) */
+  gap: 10px;
+}
+
+.skillRow{
+  position: relative;
+
+  /* РУЧКА высоты строки навыка (толщина) */
+  height: 26px;
+
+  border-radius: 14px 10px 10px 14px;
+
+  background: transparent;
+  border: 0;
+  display: grid;
+
+  /* колонки */
+  grid-template-columns: 28px 1fr 56px;
+
+  align-items: center;
+  padding: 0 8px 0 12px;
+  overflow: visible;
+
+  /* ✅ РУЧКА: зазор перед модификатором (в пикселях) */
+  --skillStopGap: 3px;
+}
+
+/* ✅ ЗАКРАШЕННАЯ ОБЛАСТЬ навыка — теперь тоже стопается перед модификатором */
+.skillRow::after{
+  content:"";
+  position:absolute;
+  left:0;
+
+  /* ✅ стоп ровно перед колонкой модификатора (ничего не “торчит”) */
+  right: 45px;
+
+  /* ✅ центровка относительно рамки мода (при твоих height:26 и skillValBtn height:34 + margin-top:-2) */
+  top: 2px;
+  bottom: -2px;
+
+  border-radius: 14px 10px 10px 14px;
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg2) 88%);
+  z-index: 0;
+  pointer-events:none;
+  z-index: 0;
+}
+/* контент поверх заливки (названия навыков не пропадают) */
+.skillRow > *{
+  position: relative;
+  z-index: 2;
+}
+
+/* ✅ бордер полосы навыка — тоже стопается перед модификатором */
+.skillRow::before{
+  content:"";
+  position:absolute;
+  left: 0;
+
+  right: 45px;
+
+  top: 2px;
+  bottom: -2px;
+
+  border: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
+  border-radius: 14px 10px 10px 14px;
+  pointer-events:none;
+  z-index: 1;
+}
+html[data-theme="arcane"] .skillRow{
+  background: transparent;
+}
+.skillToggle{
+  position: relative;
+
+  /* РУЧКА: размер кнопки под высоту строки */
+  width: 26px;
+  height: 26px;
+
+  border: 0;
+  background: transparent;
+
+  /* РУЧКА: половина кружка (18/2=9) — центр кружка на бордере */
+  margin-left: -9px;
+  padding-left: 9px;
+
+  /* РУЧКА вертикали (если кружок/текст ниже) */
+  transform: translateY(-3px);
+
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  z-index: 2;
+}
+
+.skillDot{
+  position: absolute;
+  left: 0;                 /* внутри кнопки */
+top: calc(50% + 2px);
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--bg2) 92%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--text) 10%, transparent) inset;
+  pointer-events: none;
+  z-index: 2;
+}
+
+
+.skillToggle[aria-pressed="true"] .skillDot{
+  border-color: color-mix(in srgb, var(--accent) 92%, transparent);
+  background:
+    radial-gradient(circle at 35% 35%,
+      color-mix(in srgb, var(--accent) 95%, #fff 5%) 0%,
+      color-mix(in srgb, var(--accent) 70%, transparent) 45%,
+      color-mix(in srgb, var(--bg2) 92%, transparent) 78%
+    );
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent) inset,
+    0 10px 18px color-mix(in srgb, var(--glow) 20%, transparent);
+}
+
+.skillName{
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+
+  /* РУЧКА: размер текста навыка */
+  font-size: 10px;
+
+  color: color-mix(in srgb, var(--text) 90%, transparent);
+  padding-left: 2px;
+
+  /* РУЧКА вертикали */
+  transform: translateY(-1px);
+  transform: translateX(-15px);
+}
+
+
+.skillValBtn{
+  height: 34px;
+  width: 46px;
+  justify-self: end;
+  margin-right: -2px;
+  margin-top: -2px;          /* центрируем как у мини-полей */
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--text) 26%, transparent);
+  background: color-mix(in srgb, var(--bg2) 78%, var(--text) 22%);
+  display: grid;
+  place-items: center;
+  position: relative;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  box-shadow:
+    0 10px 24px color-mix(in srgb, var(--glow) 18%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--text) 10%, transparent) inset;
+      margin-left: 1px; /* ✅ gap 1px, чтобы рамки не залезали друг на друга (РУЧКА: 0..2) */
+  z-index: 3;                /* модификатор выше полосы навыка */
+}
+
+.skillVal{
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 16px; /* больше */
+  color: color-mix(in srgb, var(--text) 96%, transparent);
+}
+/* если навык изменён вручную (bonus != 0) */
+.skillValBtn.is-bonus{
+  background: color-mix(in srgb, var(--accent) 18%, var(--bg2) 82%);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  box-shadow:
+    0 10px 24px color-mix(in srgb, var(--glow) 22%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent) inset;
+}
+
+.skillValBtn.is-bonus .skillVal{
+  color: color-mix(in srgb, var(--accent) 92%, var(--text) 8%);
+  text-shadow:
+    0 10px 26px color-mix(in srgb, var(--glow) 22%, transparent),
+    0 0 0.5px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.skillExtra{
+  display: none !important; /* убираем вторую цифру полностью */
+}
+
+/* ===== Sections list (fullscreen) ===== */
+.sectionsList{
+  padding: 8px 14px 18px 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.sectionPick{
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+ position: relative;
+  border: 1px solid color-mix(in srgb, var(--text) 22%, transparent);
+  border-radius: 13px;
+
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  align-items: center;
+  gap: 10px;
+
+  /* компактнее по вертикали */
+  padding: 8px 12px;
+
+  /* НЕТ заливки вообще */
+  background: transparent;
+
+  color: color-mix(in srgb, var(--text) 88%, transparent);
+}
+html[data-theme="arcane"] .sectionPick{
+  border-color: color-mix(in srgb, var(--text) 18%, transparent);
+  background: transparent;
+}
+
+.sectionPick__icon{
+  width: 24px;
+  height: 24px;
+  display: block;
+  filter: var(--iconFilter);
+  opacity: 0.95;
+}
+
+.sectionPick__text{
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 1.05;
+}
+
+.sectionPick.is-active{
+  border: 0;
+  position: relative; /* якорь на всякий */
+}
+
+/* базовый бордер-шейп для активной кнопки */
+.sectionPick.is-active::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 13px;
+  padding: 1px;
+  pointer-events: none;
+
+  /* дефолт */
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--accent) 70%, transparent),
+    color-mix(in srgb, var(--text) 18%, transparent),
+    color-mix(in srgb, var(--accent) 50%, transparent)
+  );
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+/* Cataclysm: меняем только градиент рамки */
+html[data-theme="molten"] .sectionPick.is-active::before{
+  background: linear-gradient(90deg,
+    #ff9d2e 0%,
+    #ff4d00 35%,
+    #ff9d2e 65%,
+    #ffb347 100%
+  );
+}
+
+/* Lich King: меняем только градиент рамки */
+html[data-theme="arcane"] .sectionPick.is-active::before{
+  background: linear-gradient(90deg,
+    #6ecbff 0%,
+    #2b6cff 35%,
+    #7a5cff 65%,
+    #9dd8ff 100%
+  );
+}
+/* Legion: меняем только градиент рамки */
+html[data-theme="legion"] .sectionPick.is-active::before{
+  background: linear-gradient(90deg,
+    #a7ff1a 0%,
+    #00ff9a 35%,
+    #7d2bff 65%,
+    #caff4a 100%
+  );
+}
+/* =========================
+   MODALS
+   ========================= */
+
+.modal { position: fixed; inset: 0; z-index: 50; }
+.modal--hidden { display: none; }
+
+.modal__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+}
+html[data-theme="arcane"] .modal__scrim { background: rgba(13,18,28,0.36); }
+
+.modal__panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: rgba(10, 10, 12, 0.92);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+  color: var(--text);
+}
+html[data-theme="arcane"] .modal__panel {
+  background:
+    radial-gradient(120% 160% at 18% 10%, rgba(122, 92, 255, 0.22), transparent 58%),
+    radial-gradient(120% 160% at 82% 0%, rgba(53, 199, 255, 0.18), transparent 62%),
+    rgba(7, 10, 24, 0.90);
+  backdrop-filter: blur(16px);
+}
+html[data-theme="molten"] .modal__panel {
+  background:
+    radial-gradient(120% 160% at 18% 10%, color-mix(in srgb, var(--accent2) 22%, transparent), transparent 58%),
+    radial-gradient(120% 160% at 82% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 62%),
+    rgba(10, 10, 12, 0.90);
+  backdrop-filter: blur(16px);
+}
+
+html[data-theme="legion"] .modal__panel {
+  background:
+    radial-gradient(120% 160% at 18% 10%, rgba(167, 255, 26, 0.18), transparent 58%),
+    radial-gradient(120% 160% at 82% 0%, rgba(125, 43, 255, 0.14), transparent 62%),
+    rgba(4, 8, 9, 0.90);
+  backdrop-filter: blur(16px);
+}
+.modal__panel--sheet {
+  bottom: 0;
+  border-radius: 18px 18px 0 0;
+  padding-bottom: calc(14px + var(--safeBottom));
+  max-height: 88vh;
+  overflow: auto;
+}
+.modal__panel--center{
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 420px);
+  border-radius: 18px;
+  max-height: 84vh;
+  overflow: auto;
+}
+.modal__panel--full {
+  bottom: 0;
+  top: 0;
+  border-radius: 0;
+  padding-bottom: calc(14px + var(--safeBottom));
+  overflow: auto;
+}
+
+.modal__head {
+  padding: 12px 14px;
+  display: flex;
+  justify-content: flex-end;
+}
+.modal__head--split {
+  justify-content: space-between;
+  align-items: center;
+}
+.modal__title {
+  font-family: Cinzel, serif;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+/* =========================
+   FORMS
+   ========================= */
+
+.form { padding: 10px 14px 0; }
+.formRow { margin-bottom: 12px; }
+.themeSeg {
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.06);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 4px;
+  gap: 6px;
+}
+html[data-theme="arcane"] .themeSeg { background: rgba(255,255,255,0.08); }
+
+.themeSeg__btn {
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  font-size: 12px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset;
+}
+
+/* кнопки окрашены “своей” темой, даже когда тема сейчас другая */
+.themeSeg__btn--molten{
+  background: linear-gradient(180deg, rgba(255,157,46,0.20), rgba(255,77,0,0.08));
+  color: rgba(255, 220, 190, 0.85);
+}
+.themeSeg__btn--arcane{
+  background: linear-gradient(180deg, rgba(110,203,255,0.20), rgba(122,92,255,0.10));
+  color: rgba(220, 242, 255, 0.88);
+}
+.themeSeg__btn--legion{
+  background: linear-gradient(180deg, rgba(167,255,26,0.20), rgba(125,43,255,0.10));
+  color: rgba(220, 255, 232, 0.88);
+}
+
+.themeSeg__btn.is-active {
+  background: color-mix(in srgb, var(--accent) 26%, transparent);
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--line) 85%, transparent) inset,
+    0 12px 30px color-mix(in srgb, var(--glow) 55%, transparent);
+}
+.formGrid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 800;
+  color: var(--muted2);
+  margin-bottom: 6px;
+}
+
+.input {
+  width: 100%;
+  height: 44px;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  padding: 0 12px;
+  font-size: 14px;
+  outline: none;
+}
+html[data-theme="arcane"] .input { background: rgba(255,255,255,0.08); }
+.input::placeholder { color: color-mix(in srgb, var(--muted) 60%, transparent); }
+
+.bigBtn {
+  width: 100%;
+  height: 48px;
+  border: 0;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 90%, #000 10%);
+  color: rgba(255,255,255,0.95);
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  margin-top: 8px;
+  box-shadow:
+    0 10px 26px color-mix(in srgb, var(--glow) 55%, transparent),
+    0 0 0 1px rgba(255,255,255,0.10) inset;
+}
+.coverBtn {
+  width: 100%;
+
+  background: transparent !important;
+  border: 1px dashed var(--accent) !important;
+  border-radius: 14px !important;
+
+  padding: 5px 0 !important;
+  height: auto !important;
+  min-height: unset !important;
+
+  color: var(--accent) !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  letter-spacing: 1px;
+  text-transform: lowercase;
+
+  box-shadow: none !important;
+}
+html[data-theme="arcane"] .bigBtn {
+  box-shadow:
+    0 12px 30px color-mix(in srgb, var(--glow) 55%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--line) 55%, transparent) inset;
+}
+/* =========================
+   SPELL SETTINGS (kept)
+   ========================= */
+
+.spellTop {
+  padding: 10px 14px 6px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.9fr 0.9fr;
+  gap: 10px;
+}
+.spellStat {
+  position: relative;
+  padding: 10px 10px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+}
+html[data-theme="arcane"] .spellStat { background: rgba(13,18,28,0.05); }
+
+.spellStat__label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 800;
+  color: var(--muted2);
+  margin-bottom: 8px;
+}
+.spellStat__big {
+  font-weight: 900;
+  font-size: 20px;
+}
+.spellStat__value {
+  width: 100%;
+  border: 0;
+  background: rgba(255,255,255,0.06);
+  border-radius: 12px;
+  height: 36px;
+  color: var(--text);
+  font-weight: 800;
+}
+html[data-theme="arcane"] .spellStat__value { background: rgba(13,18,28,0.06); }
+
+.slots { padding: 10px 14px 0; }
+.slots__title {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 10px;
+  letter-spacing: 0.2px;
+}
+.slotsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+.slotBox {
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+}
+html[data-theme="arcane"] .slotBox { background: rgba(13,18,28,0.05); }
+
+.slotBox__lvl {
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 900;
+  color: var(--muted2);
+}
+.slotBox__in {
+  margin-top: 8px;
+  width: 100%;
+  height: 42px;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  padding: 0 10px;
+  font-weight: 900;
+  font-size: 16px;
+  outline: none;
+}
+html[data-theme="arcane"] .slotBox__in { background: rgba(13,18,28,0.06); }
+
+/* =========================
+   PORTRAIT
+   ========================= */
+
+.portraitBox { padding: 10px 14px 0; }
+.hint {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+/* =========================
+   XP CALC + LEVEL-UP GLOW
+   ========================= */
+
+.xpCalc { padding: 10px 14px 0; }
+
+.xpMini {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.xpMini__left, .xpMini__right {
+  font-weight: 900;
+  text-align: center;
+  color: color-mix(in srgb, var(--text) 78%, transparent);
+}
+.xpMini__track {
+  height: 20px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+html[data-theme="arcane"] .xpMini__track { background: rgba(13,18,28,0.10); }
+
+.xpMini__fill {
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  background: color-mix(in srgb, var(--accent) 55%, transparent);
+  filter: drop-shadow(0 0 12px var(--glow));
+}
+.xpMini__text {
+  position: relative;
+  z-index: 2;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: color-mix(in srgb, var(--text) 78%, transparent);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+}
+.xpInputRow {
+  display: grid;
+  grid-template-columns: 1fr 56px;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.xpInput {
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 12px;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 0.6px;
+}
+html[data-theme="arcane"] .xpInput { background: rgba(13,18,28,0.06); }
+
+.xpBackspace {
+  height: 48px;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.06);
+  display: grid;
+  place-items: center;
+}
+html[data-theme="arcane"] .xpBackspace { background: rgba(13,18,28,0.06); }
+
+.xpBackspace__icon { width: 18px; height: 18px; opacity: 0.75; filter: var(--iconFilter); }
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.key {
+  height: 56px;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  font-weight: 900;
+  font-size: 22px;
+}
+html[data-theme="arcane"] .key { background: rgba(13,18,28,0.05); }
+.key:active { background: rgba(255,255,255,0.08); }
+html[data-theme="arcane"] .key:active { background: rgba(13,18,28,0.08); }
+
+.xpActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  padding-bottom: calc(14px + var(--safeBottom));
+}
+
+.xpAct {
+  height: 52px;
+  border: 0;
+  border-radius: 14px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  font-size: 12px;
+}
+
+.xpAct--ok {
+  background: rgba(109, 214, 176, 0.14);
+  color: rgba(109, 214, 176, 0.95);
+}
+
+.xpAct--bad {
+  background: rgba(255, 93, 110, 0.14);
+  color: rgba(255, 93, 110, 0.95);
+}
+
+/* Level up: grey when not ready, GLOW when ready */
+.xpAct--level {
+  background: rgba(255,255,255,0.06);
+  color: color-mix(in srgb, var(--muted) 85%, transparent);
+}
+
+html[data-theme="arcane"] .xpAct--level {
+  background: rgba(255,255,255,0.08);
+}
+.xpAct--level.is-ready {
+  background: color-mix(in srgb, var(--accent) 92%, #000 8%);
+  color: rgba(255,255,255,0.95);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--glow) 75%, transparent) inset,
+    0 12px 30px color-mix(in srgb, var(--glow) 60%, transparent),
+    0 0 26px color-mix(in srgb, var(--glow2) 70%, transparent);
+}
+.xpAct:disabled { opacity: 0.75; }
+
+/* =========================
+   TOAST
+   ========================= */
+
+.toast {
+  position: fixed;
+  left: 14px;
+  right: 14px;
+  bottom: calc(12px + var(--safeBottom));
+  padding: 12px 12px;
+  border-radius: 14px;
+  background: rgba(10, 10, 12, 0.92);
+  box-shadow: var(--shadow);
+  z-index: 80;
+  color: rgba(255,255,255,0.92);
+  font-weight: 700;
+  font-size: 13px;
+}
+html[data-theme="arcane"] .toast {
+  background:
+    radial-gradient(120% 160% at 18% 10%, color-mix(in srgb, var(--glow) 60%, transparent), transparent 58%),
+    radial-gradient(120% 160% at 82% 0%, color-mix(in srgb, var(--glow2) 52%, transparent), transparent 62%),
+    color-mix(in srgb, var(--bg1) 92%, #000 8%);
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+html[data-theme="molten"] .toast {
+  background:
+    radial-gradient(120% 160% at 18% 10%, color-mix(in srgb, var(--glow) 56%, transparent), transparent 58%),
+    radial-gradient(120% 160% at 82% 0%, color-mix(in srgb, var(--glow2) 48%, transparent), transparent 62%),
+    color-mix(in srgb, var(--bg1) 92%, #000 8%);
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+
+html[data-theme="legion"] .toast {
+  background:
+    radial-gradient(120% 160% at 18% 10%, color-mix(in srgb, var(--glow) 54%, transparent), transparent 58%),
+    radial-gradient(120% 160% at 82% 0%, color-mix(in srgb, var(--glow2) 44%, transparent), transparent 62%),
+    color-mix(in srgb, var(--bg1) 94%, #000 6%);
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+.toast--hidden { display: none; }
+
+/* ===== Cover background ===== */
+.coverBg{
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  opacity: 0;
+  transition: opacity 180ms ease;
+  transform: scale(1.02);
+  filter: saturate(1.05) contrast(1.05);
+  pointer-events: none;
+}
+
+.coverBg::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 140% at 20% 10%, rgba(0,0,0,0.10), transparent 62%),
+    linear-gradient(to bottom, rgba(0,0,0,0.22), rgba(0,0,0,0.42));
+}
+.coverBg.is-on{ opacity: 0.33; }
+html[data-theme="arcane"] .coverBg.is-on{ opacity: 0.45; }
+/* app should be above cover */
+.app{ position: relative; z-index: 1; }
+/* ===== Inspiration modal ===== */
+.inspSheet{
+  padding: 14px 14px 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.inspSheet__input{
+  height: 54px;
+  width: 100%;
+  border-radius: 14px;
+  border: 0;
+  outline: none;
+  text-align: center;
+  font-weight: 950;
+  font-size: 22px;
+  letter-spacing: 0.4px;
+
+  color: var(--text);
+  background: rgba(255,255,255,0.06);
+  box-shadow:
+    0 10px 24px rgba(0,0,0,0.18),
+    0 0 0 1px rgba(255,255,255,0.08) inset;
+}
+
+html[data-theme="arcane"] .inspSheet__input{
+  background: rgba(13,18,28,0.06);
+  box-shadow:
+    0 10px 24px rgba(0,0,0,0.16),
+    0 0 0 1px color-mix(in srgb, var(--line) 42%, transparent) inset;
+}
+
+.inspSheet__actions{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+/* Inventory editor rules are defined later (avoid duplicates here) */
+.modal__panel--dialog{
+  left: 50%;
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 360px);
+  border-radius: 18px;
+  padding: 14px;
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.modal__panel--spellView{
+  left: 50%;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  width: min(96vw, 780px);
+  max-height: 92vh;
+  border-radius: 10px;
+  padding: 18px 18px calc(18px + var(--safeBottom));
+  overflow: hidden; /* no inner scroll */
+}
+
+.invCalc__head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.invCalc__title{
+  font-weight: 900;
+  letter-spacing: 0.4px;
+}
+.invCalc__body{
+  display:flex;
+  flex-direction:column;
+  gap: 8px;
+}
+.invCalcTotal{
+  font-size: 14px;
+}
+.invCalcSub{
+  font-size: 12px;
+  opacity: 0.75;
+}
+.invCalcLine{
+  display:flex;
+  justify-content:space-between;
+  gap: 10px;
+  border-top: 1px solid color-mix(in srgb, var(--line) 65%, transparent);
+  padding-top: 8px;
+  font-size: 13px;
+}
+.invCalcLine span{
+  white-space: nowrap;
+  opacity: 0.9;
+}
+
+
+/* === FIXES 2026-03-03 inventory compactness & layout === */
+
+/* Put sort + plus together at bottom-right (like example) */
+[data-invpanel="weapons"] .invFoot{
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Make action buttons smaller (like example) */
+.invIconBtn,
+.invPlusBtn{
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+}
+.invIconBtn__icon,
+.invPlusBtn__icon{
+  width: 16px;
+  height: 16px;
+}
+
+/* Inventory editor (inv item modal): remove top пустота, close button lower/compact */
+#invItemModal .modal__panel--inv{
+  /* keep real bottom-sheet positioning (do not override .modal__panel absolute) */
+  bottom: 0;
+  top: auto;
+  max-height: 88vh;
+  overflow: auto;
+  scrollbar-width: none;
+}
+#invItemModal .modal__panel--inv::-webkit-scrollbar{ width: 0; height: 0; }
+
+#invItemModal .modal__head{
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  padding: 0;
+  z-index: 5;
+}
+
+/* Content padding (single safe bottom) */
+#invItemModal .invEdit{
+  padding: 8px 12px calc(14px + var(--safeBottom));
+}
+
+/* Inputs as "lines" with text sitting on the line */
+#invItemModal .input{
+  height: 34px !important;
+  line-height: 34px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent) !important;
+  padding: 0 0 0 !important;
+  outline: none !important;
+}
+#invItemModal .input::placeholder{ color: color-mix(in srgb, var(--muted) 60%, transparent); }
+#invItemModal .input:focus,
+#invItemModal .input:focus-visible{
+  outline: none !important;
+  border-bottom-color: color-mix(in srgb, var(--accent) 45%, transparent) !important;
+}
+
+/* Notes stays framed */
+#invItemModal .textarea{
+  border-radius: 14px;
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset;
+}
+html[data-theme="arcane"] #invItemModal .textarea{ background: rgba(13,18,28,0.06); }
+
+/* Custom selects (rarity/ability): button + dropdown, not native ugly list */
+#invItemModal .csWrap{ position: relative; }
+#invItemModal .csSelect{
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+#invItemModal .csBtn{
+  width: 100%;
+  height: 34px;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset;
+  padding: 0 34px 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  font-weight: 800;
+}
+html[data-theme="arcane"] #invItemModal .csBtn{ background: rgba(13,18,28,0.06); }
+#invItemModal .csBtn__label{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#invItemModal .csBtn__chev{
+  position: absolute;
+  right: 10px;
+  width: 16px;
+  height: 16px;
+  filter: var(--iconFilter);
+  opacity: 0.9;
+}
+#invItemModal .csMenu{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(34px + 8px);
+  border-radius: 14px;
+  padding: 6px;
+  background: rgba(10, 10, 12, 0.96);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
+  border: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+  z-index: 20;
+  display: none;
+}
+html[data-theme="arcane"] #invItemModal .csMenu{
+  background: rgba(7, 10, 24, 0.94);
+}
+#invItemModal .csWrap.is-open .csMenu{ display: grid; }
+#invItemModal .csOpt{
+  border: 0;
+  background: transparent;
+  color: color-mix(in srgb, var(--text) 90%, transparent);
+  font-weight: 800;
+  text-align: left;
+  padding: 10px 10px;
+  border-radius: 12px;
+}
+#invItemModal .csOpt:hover,
+#invItemModal .csOpt:focus-visible{
+  outline: none;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+#invItemModal .csOpt.is-active{
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+}
+/* Rarity colors inside custom select (label + options) */
+#invItemModal .csWrap[data-value="common"] .csBtn__label{ color: color-mix(in srgb, var(--text) 92%, transparent); }
+#invItemModal .csWrap[data-value="uncommon"] .csBtn__label{ color: #1eff00; }
+#invItemModal .csWrap[data-value="rare"] .csBtn__label{ color: #0070dd; }
+#invItemModal .csWrap[data-value="very_rare"] .csBtn__label{ color: #a335ee; }
+#invItemModal .csWrap[data-value="legendary"] .csBtn__label{ color: #ff8000; }
+#invItemModal .csWrap[data-value="artifact"] .csBtn__label{ color: #e84a4a; }
+
+#invItemModal .csOpt[data-value="common"]{ color: color-mix(in srgb, var(--text) 92%, transparent); }
+#invItemModal .csOpt[data-value="uncommon"]{ color: #1eff00; }
+#invItemModal .csOpt[data-value="rare"]{ color: #0070dd; }
+#invItemModal .csOpt[data-value="very_rare"]{ color: #a335ee; }
+#invItemModal .csOpt[data-value="legendary"]{ color: #ff8000; }
+#invItemModal .csOpt[data-value="artifact"]{ color: #e84a4a; }
+
+/* Slightly nicer option typography */
+#invItemModal .csOpt{ font-weight: 600; }
+
+
+/* Notes modal: dialog sized to content */
+/* prevent native double-tap behaviors */
+html, body {
+  touch-action: manipulation;
+}
+
+/* Inventory Sell modal */
+.modal__panel--invSell{
+  padding-bottom: 0;
+  max-height: 70vh;
+}
+.invSell{
+  position: relative;
+  padding: 10px 14px calc(14px + var(--safeBottom));
+}
+.invSell__top{
+  padding: 0 0 10px;
+}
+.invSell__title{
+  font-family: Cinzel, serif;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0.6px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+.invSell__sub{
+  margin-top: 4px;
+  font-size: 12px;
+  color: color-mix(in srgb, var(--text) 70%, transparent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+.invSell__row{
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  gap: 10px;
+  align-items: end;
+}
+.invSellDenom{
+  border: 0;
+  background: transparent;
+  padding: 10px 0 8px;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  display: grid;
+  grid-template-columns: 18px 1fr 16px;
+  gap: 10px;
+  align-items: center;
+  text-align: left;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+.invSellDenom__icon{
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+.invSellDenom__text{
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+.invSellDenom__chev{
+  width: 16px;
+  height: 16px;
+  filter: var(--iconFilter);
+  opacity: 0.9;
+  justify-self: end;
+}
+.invSellAmount{
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  padding: 10px 0 8px;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  font-weight: 800;
+  font-size: 16px;
+  text-align: left;
+}
+.invSellAmount::placeholder{
+  color: color-mix(in srgb, var(--text) 40%, transparent);
+}
+.invSell__actions{
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.invSellAct{
+  border: 0;
+  border-radius: 14px;
+  padding: 10px 12px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+.invSellAct--ghost{
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset;
+  color: color-mix(in srgb, var(--text) 90%, transparent);
+}
+.invSellAct--ok{
+  background: color-mix(in srgb, var(--accent) 22%, rgba(255,255,255,0.06));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent) inset;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+
+.invSellPopover{
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  margin-top: 8px;
+  border-radius: 14px;
+  background: rgba(10,12,18,0.94);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+  overflow: hidden;
+  z-index: 50;
+}
+.invSellPopover--hidden{ display: none; }
+.invSellOpt{
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 10px 12px;
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 10px;
+  align-items: center;
+  text-align: left;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+.invSellOpt + .invSellOpt{
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.invSellOpt.is-active{
+  background: rgba(255,255,255,0.06);
+}
+.invSellOpt__icon{
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+/* Sell modal: компактнее + крестик ниже */
+.modal__panel--invSell{
+  max-height: 56vh;
+}
+
+#invSellModal .modal__head{
+  position: absolute;
+  top: 14px;
+  right: 12px;
+  padding: 0;
+  z-index: 5;
+}
+
+/* чтобы заголовок/подзаголовок не прятались под крестик */
+#invSellModal .modal__title{
+  padding-right: 44px;
+}
+/* Inventory Log modal */
+.modal__panel--invLog{
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translate(-50%, -50%) !important;
+
+  width: min(92vw, 520px);
+  max-height: 78vh;
+
+  border-radius: 18px;
+  overflow: auto;
+}
+.invLog{
+  padding: 10px 14px calc(14px + var(--safeBottom));
+}
+.invLog__top{
+  padding: 0 0 10px;
+}
+.invLog__title{
+  font-family: Cinzel, serif;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0.6px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+.invLogTable{
+  margin-top: 8px;
+}
+.invLogHead{
+  display: grid;
+  grid-template-columns: 84px 1fr 120px;
+  gap: 10px;
+  padding: 6px 0 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+}
+.invLogCol{
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--text) 60%, transparent);
+}
+.invLogCol:last-child{
+  text-align: right;
+  padding-right: 4px;
+}
+.invLogBody{ display: block; }
+.invLogRow{
+  display: grid;
+  grid-template-columns: 84px 1fr 100px;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.invLogAct{
+  font-weight: 800;
+  font-size: 12px;
+  color: color-mix(in srgb, var(--text) 86%, transparent);
+}
+/* Цвета действий в логе */
+.invLogAct--sell{
+  color: #3CC878; /* зелёный */
+}
+
+.invLogAct--drop{
+  color: #FF5A5A; /* красный */
+}
+.invLogItem{
+  min-width: 0;
+  font-weight: 700;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+.invLogSum{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  font-weight: 900;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--text) 90%, transparent);
+}
+.invLogSum__icon{
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+.invLogMeta{
+  grid-column: 1 / -1;
+  margin-top: 2px;
+  font-size: 11px;
+  color: color-mix(in srgb, var(--text) 55%, transparent);
+}
+.invLogEmpty{
+  padding: 14px 0;
+  color: color-mix(in srgb, var(--text) 55%, transparent);
+  font-size: 12px;
+  display: none;
+}
+.invLogBody:empty + .invLogEmpty{ display: block; }
+/* лог: меньше пустоты сверху */
+#invLogModal .modal__head{
+  position: absolute;
+  top: 14px;
+  right: 12px;
+  padding: 0;
+  z-index: 5;
+}
+
+/* чтобы заголовок не залезал под крестик */
+#invLogModal .modal__title{
+  padding-right: 44px;
+}
+
+/* убрать лишний верхний воздух у панели */
+#invLogModal .modal__panel{
+  padding-top: 18px;
+}
+#invLogModal .modal__panel{
+  width: min(92vw, 520px);
+}
+.invLogRow .invLogSum:empty{
+  justify-content: center;
+}
+
+
+/* ===== Equipment ===== */
+.equip{
+  padding: 10px 0 2px;
+}
+.equip__stage{
+  position: relative;
+  width: 100%;
+  min-height: 460px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--panel) 76%, transparent);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.45);
+  overflow: hidden;
+  border: 2px solid color-mix(in srgb, var(--text) 16%, transparent);
+}
+.equip__stage::before{
+  content:"";
+  position:absolute;
+  inset: 6px;
+  border-radius: 14px;
+  pointer-events:none;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 34%, transparent), transparent 42%) top left/26px 26px no-repeat,
+    linear-gradient(225deg, color-mix(in srgb, var(--accent) 34%, transparent), transparent 42%) top right/26px 26px no-repeat,
+    linear-gradient(45deg,  color-mix(in srgb, var(--accent) 34%, transparent), transparent 42%) bottom left/26px 26px no-repeat,
+    linear-gradient(315deg, color-mix(in srgb, var(--accent) 34%, transparent), transparent 42%) bottom right/26px 26px no-repeat;
+  opacity: 0.85;
+}
+.equip__stage::after{
+  content:"";
+  position:absolute;
+  inset: 0;
+  pointer-events:none;
+  border-radius: 18px;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--text) 10%, transparent) inset;
+}
+
+.equip__race{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+}
+.equipRaceBtn{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--text) 14%, transparent);
+  background: color-mix(in srgb, var(--bg2) 42%, transparent);
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  font: 600 12px/1 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+.equipRaceBtn__icon{
+  width: 14px;
+  height: 14px;
+  opacity: 0.85;
+}
+
+.equip__silWrap{
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+
+  /* ручки подстройки, если конкретный силуэт “косит” из-за viewBox */
+  --silX: 0px;
+  --silY: 0px;
+}
+.equip__sil{
+  width: min(330px, 70vw);
+  max-width: 360px;
+  height: auto;
+
+  opacity: 0.22;
+
+  filter:
+    /* аккуратный тематический бордер по форме */
+    drop-shadow(1px 0 0 var(--accent))
+    drop-shadow(-1px 0 0 var(--accent))
+    drop-shadow(0 1px 0 var(--accent))
+    drop-shadow(0 -1px 0 var(--accent))
+
+    /* лёгкое мягкое свечение */
+    drop-shadow(0 0 10px color-mix(in srgb, var(--accent) 25%, transparent));
+
+  transform: translate(var(--silX), var(--silY));
+}
+.equipSlots{
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.equipSlots--left{
+  top: 64px;
+  left: 12px;
+}
+.equipSlots--right{
+  top: 64px;
+  right: 12px;
+}
+.equipSlots--bottom{
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  flex-direction: row;
+  gap: 10px;
+}
+
+.equipSlot{
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--text) 14%, transparent);
+  background: color-mix(in srgb, var(--bg2) 40%, transparent);
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+.equipSlot__icon{
+  width: 94%;
+  height: 94%;
+  opacity: 0.92;
+  position: relative;
+  z-index: 1;
+}
+.equipSlot.is-filled{
+  border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 18%, transparent), 0 14px 30px rgba(0,0,0,0.55);
+}
+
+
+/* mirror left-hand weapon icon so it points outward */
+.equipSlot[data-slot="weaponLeft"] .equipSlot__icon{
+  transform: scaleX(-1);
+}
+
+/* rarity border color on filled slots */
+.equipSlot.is-filled.rarity-common{
+  border-color: color-mix(in srgb, var(--text) 18%, transparent);
+  box-shadow: none;
+}
+.equipSlot.is-filled.rarity-uncommon{
+  border-color: color-mix(in srgb, #2ecc71 72%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, #2ecc71 28%, transparent);
+}
+.equipSlot.is-filled.rarity-rare{
+  border-color: color-mix(in srgb, #3b82f6 78%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, #3b82f6 30%, transparent);
+}
+.equipSlot.is-filled.rarity-very_rare{
+  border-color: color-mix(in srgb, #a855f7 78%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, #a855f7 30%, transparent);
+}
+.equipSlot.is-filled.rarity-legendary{
+  border-color: color-mix(in srgb, #f59e0b 80%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, #f59e0b 30%, transparent);
+}
+.equipSlot.is-filled.rarity-artifact{
+  border-color: color-mix(in srgb, #e84a4a 82%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, #e84a4a 30%, transparent);
+}
+
+.equipSlot.is-filled.rarity-common{ --rarGlow: color-mix(in srgb, var(--text) 22%, transparent); --rarIconFilter: none; }
+.equipSlot.is-filled.rarity-uncommon{ --rarGlow: color-mix(in srgb, #2ecc71 70%, transparent); --rarIconFilter: brightness(0) saturate(100%) invert(52%) sepia(76%) saturate(448%) hue-rotate(86deg) brightness(96%) contrast(92%); }
+.equipSlot.is-filled.rarity-rare{ --rarGlow: color-mix(in srgb, #3b82f6 74%, transparent); --rarIconFilter: brightness(0) saturate(100%) invert(34%) sepia(94%) saturate(749%) hue-rotate(188deg) brightness(98%) contrast(92%); }
+.equipSlot.is-filled.rarity-very_rare{ --rarGlow: color-mix(in srgb, #a855f7 74%, transparent); --rarIconFilter: brightness(0) saturate(100%) invert(35%) sepia(88%) saturate(1550%) hue-rotate(248deg) brightness(98%) contrast(92%); }
+.equipSlot.is-filled.rarity-legendary{ --rarGlow: color-mix(in srgb, #f59e0b 76%, transparent); --rarIconFilter: brightness(0) saturate(100%) invert(67%) sepia(64%) saturate(2195%) hue-rotate(357deg) brightness(102%) contrast(101%); }
+.equipSlot.is-filled.rarity-artifact{ --rarGlow: color-mix(in srgb, #e84a4a 78%, transparent); --rarIconFilter: brightness(0) saturate(100%) invert(37%) sepia(82%) saturate(2146%) hue-rotate(332deg) brightness(99%) contrast(93%); }
+
+.equipSlot.is-filled{
+  background:
+    radial-gradient(closest-side, color-mix(in srgb, var(--accent) 12%, transparent), transparent 68%),
+    color-mix(in srgb, var(--bg2) 44%, transparent);
+}
+.equipSlot.is-filled .equipSlot__icon{
+  filter: var(--rarIconFilter, none) drop-shadow(0 0 10px var(--rarGlow, transparent));
+}
+
+/* silhouette fallback when png is missing */
+.equipSil.is-missing{
+  display: none;
+}
+.equipSlot.is-filled .equipSlot__icon{
+  opacity: 1;
+}
+.equipSlot.is-filled::after{
+  content:"";
+  position:absolute;
+  inset: 6px;
+  border-radius: 12px;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%);
+  pointer-events:none;
+}
+
+.equipTip{
+  position: absolute;
+  z-index: 20;
+  width: min(320px, calc(100% - 22px));
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--text) 14%, transparent);
+  background: color-mix(in srgb, var(--bg1) 72%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 22px 70px rgba(0,0,0,0.70);
+  padding: 12px 12px 10px;
+}
+.equipTip--hidden{ display:none; }
+
+.equipTip__name{
+  font-family: Cinzel, serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.15;
+  letter-spacing: 0.2px;
+  margin: 0 0 6px;
+}
+.equipTip__rarity{
+  font: 600 12px/1.1 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  opacity: 0.92;
+  margin: 0 0 10px;
+}
+.equipTip__row{
+  display:flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font: 600 12px/1.1 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: color-mix(in srgb, var(--text) 84%, transparent);
+  margin-bottom: 8px;
+}
+.equipTip__meta{
+  font: 600 12px/1.2 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: color-mix(in srgb, var(--text) 82%, transparent);
+  margin: 0 0 8px;
+}
+.equipTip__desc{
+  font: 500 12px/1.35 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: color-mix(in srgb, var(--text) 86%, transparent);
+  white-space: pre-wrap;
+  margin: 0 0 10px;
+}
+.equipTip__actions{
+  display:flex;
+  justify-content:flex-end;
+  gap: 10px;
+}
+
+.equipPick{
+  display:flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.equipPickBtn{
+  width: 100%;
+  text-align:left;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--text) 14%, transparent);
+  background: color-mix(in srgb, var(--bg2) 34%, transparent);
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  font: 600 12px/1.1 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.equipPickBtn__left{ display:flex; flex-direction: column; gap: 2px; }
+.equipPickBtn__label{ font-family: Inter, system-ui, sans-serif; font-weight: 700; }
+.equipPickBtn__raceIcon{
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent) 86%, var(--text));
+  opacity: 0.92;
+  -webkit-mask: var(--raceIcon) center / 86% 86% no-repeat;
+          mask: var(--raceIcon) center / 86% 86% no-repeat;
+}
+.equipPickBtn.is-selected{
+  border-color: color-mix(in srgb, var(--accent) 46%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 18%, transparent);
+  background: color-mix(in srgb, var(--bg2) 46%, transparent);
+}
+
+.equipPickBtn__sub{ display:none; /* legacy */
+
+  display:block;
+  margin-top: 4px;
+  font: 500 11px/1.1 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: color-mix(in srgb, var(--text) 68%, transparent);
+}
+
+.equipItemList{
+  display:flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.equipItemBtn{
+  width: 100%;
+  text-align:left;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--text) 14%, transparent);
+  background: color-mix(in srgb, var(--bg2) 34%, transparent);
+}
+.equipItemBtn__name{
+  display:block;
+  font-family: Cinzel, serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.15;
+}
+.equipItemBtn__meta{
+  display:block;
+  margin-top: 4px;
+  font: 600 11px/1.1 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: color-mix(in srgb, var(--text) 68%, transparent);
+}
+
+.equipConfirmText{
+  font: 600 12px/1.35 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  margin-bottom: 10px;
+}
+.equipConfirmActions{
+  display:flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+@media (max-width: 420px){
+  .equip__stage{ min-height: 430px; }
+  .equipSlot{ width: 48px; height: 48px; border-radius: 14px; }
+  .equipSlot__icon{ width: 24px; height: 24px; }
+  .equip__sil{ width: min(300px, 70vw); }
+}
+.equip__silhouette{
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 70%;
+  height: 90%;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0.07;
+}
+
+/* ===== Attacks: Weapons (from Equipment) ===== */
+
+.atkBlock{ padding-top: 2px; }
+.atkBlock__title{
+  font-family: Cinzel, serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+
+.atkWeapons{
+  position: relative;
+  border-top: 1px solid color-mix(in srgb, var(--line) 85%, transparent);
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.atkWHead{
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 52px 120px;
+  gap: 8px;
+  padding: 0 0 6px;
+  color: color-mix(in srgb, var(--muted) 85%, transparent);
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.atkWCol{ opacity: 0.9; }
+.atkWCol--bonus{ text-align: center; }
+.atkWCol--dmg{ text-align: right; }
+
+.atkWList{ display: grid; gap: 6px; }
+
+.atkWRow{
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 52px 120px;
+  gap: 8px;
+  align-items: center;
+}
+
+.atkEquipSlot{
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+}
+
+.atkName{
+  font-weight: 900;
+  letter-spacing: 0.2px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+.atkBonus{
+  text-align: center;
+  font-weight: 900;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+
+.atkDmg{
+  font-weight: 800;
+  color: color-mix(in srgb, var(--text) 84%, transparent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+
+
+.atkBonus.invWBonus{ justify-content: center; }
+.atkDmg.invWDmg{ justify-content: flex-end; }
+
+.atkEmpty{
+  margin-top: 10px;
+  font-size: 12px;
+  color: color-mix(in srgb, var(--muted) 85%, transparent);
+}
+
+
+/* =========================
+   SPELLS (screen + prep + view)
+   ========================= */
+
+:root{
+  --cls-artificer: #3cc9b0;
+  --cls-bard: #d868ff;
+  --cls-barbarian: #c96a48;
+  --cls-cleric: #f0d36a;
+  --cls-druid: #65d36e;
+  --cls-fighter: #7f96b8;
+  --cls-monk: #d9b35d;
+  --cls-paladin: #f7b267;
+  --cls-ranger: #a7d16b;
+  --cls-rogue: #6f7784;
+  --cls-sorcerer: #a48bff;
+  --cls-warlock: #7a6cff;
+  --cls-wizard: #67a7ff;
+}
+
+.spells{ padding: 10px 14px calc(18px + var(--safeBottom)); }
+
+.spellsTop{
+  display:flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.spellsStat{
+  flex: 1 1 0;
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.05);
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+}
+html[data-theme="arcane"] .spellsStat{ background: rgba(13,18,28,0.05); }
+
+.spellsStat__label{
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 800;
+  color: var(--muted2);
+}
+
+.spellsStat__value{
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: 0.4px;
+}
+
+.spellsActions{
+  display:flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.spellActionBtn{
+  flex: 1 1 0;
+  height: 34px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  background: transparent;
+  color: var(--text);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+}
+
+.spellsFilters{
+  display:flex;
+  gap: 1px;
+  flex-wrap: wrap;
+  margin: 10px 0 14px;
+}
+
+
+.spellFilterBtn{
+  height: 30px;
+  min-width: 34px;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--accent) 32%, rgba(255,255,255,0.10));
+  background: color-mix(in srgb, var(--bg2) 88%, var(--accent) 12%);
+  color: var(--text);
+  font-weight: 900;
+  font-size: 12px;
+}
+.spellFilterBtn.is-active{
+  background: color-mix(in srgb, var(--bg2) 62%, var(--accent) 38%);
+  border-color: color-mix(in srgb, var(--accent) 70%, rgba(255,255,255,0.12));
+}
+
+.spellsList{ display:flex; flex-direction: column; gap: 18px; }
+
+.spellLevel{
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.spellLevel__head{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.spellLevel__title{
+  font-family: Cinzel, serif;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+
+.spellLevel__icons{
+  display: inline-grid;
+  grid-auto-flow: column;
+  gap: 18px;
+  align-items: center;
+  justify-items: center;
+  margin-top: 2px;
+  opacity: 0.95;
+}
+.spellLevel__icons .sIcon{
+  width: 18px;
+  height: 18px;
+}
+.spellSlots{
+  display:flex;
+  gap: 8px;
+  align-items:center;
+}
+.slotDot{
+  cursor: pointer;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.22);
+  background: transparent;
+  padding:0;
+}
+.slotDot.is-used{
+  background: rgba(255,255,255,0.7);
+  border-color: rgba(255,255,255,0.7);
+}
+html[data-theme="arcane"] .slotDot{ border-color: rgba(13,18,28,0.25); }
+html[data-theme="arcane"] .slotDot.is-used{ background: rgba(13,18,28,0.75); border-color: rgba(13,18,28,0.75); }
+
+html[data-theme="lichking"] .slotDot{ border-color: color-mix(in srgb, var(--accent) 60%, rgba(255,255,255,0.20)); background: rgba(0,0,0,0.18); }
+html[data-theme="lichking"] .slotDot.is-used{ background: color-mix(in srgb, var(--accent) 70%, rgba(255,255,255,0.10)); border-color: color-mix(in srgb, var(--accent) 80%, rgba(255,255,255,0.10)); }
+html[data-theme="legion"] .slotDot{ border-color: color-mix(in srgb, var(--accent) 55%, rgba(255,255,255,0.18)); background: rgba(0,0,0,0.14); }
+html[data-theme="legion"] .slotDot.is-used{ background: color-mix(in srgb, var(--accent) 65%, rgba(255,255,255,0.10)); border-color: color-mix(in srgb, var(--accent) 75%, rgba(255,255,255,0.10)); }
+
+.spellCols{
+  display:grid;
+  grid-template-columns: 1fr 34px 84px 64px 44px;
+  gap: 6px;
+  align-items:center;
+  padding: 0 10px;
+  opacity: 0.95;
+}
+.spellCols__spacer{ height: 1px; }
+.sIcon{ justify-self: center; }
+
+.spellCards{ display:flex; flex-direction:column; gap: 8px; }
+
+.spellCard{
+  width: 100%;
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, rgba(255,255,255,0.10));
+  background: color-mix(in srgb, var(--bg2) 90%, var(--accent) 10%);
+  border-radius: 6px;
+  padding: 10px 12px;
+  text-align: left;
+  color: var(--text);
+}
+
+.spellCard__nameRow{
+  display:flex;
+  align-items:center;
+  gap: 8px;
+}
+
+.spellCard__name{
+  font-family: Cinzel, serif;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1.1;
+}
+.spellTag{
+  height: 18px;
+  min-width: 18px;
+  padding: 0 6px;
+  border-radius: 8px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.14);
+  font-weight: 900;
+  font-size: 11px;
+  letter-spacing: 0.4px;
+}
+html[data-theme="arcane"] .spellTag{ background: rgba(13,18,28,0.10); border-color: rgba(13,18,28,0.14); }
+
+.spellCard__sub{
+  margin-top: 4px;
+  font-size: 11px;
+  letter-spacing: 1.6px;
+  font-weight: 900;
+  color: var(--muted2);
+  text-transform: uppercase;
+}
+
+.spellCard__grid{
+  margin-top: 8px;
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 8px;
+  align-items:center;
+  font-weight: 900;
+  font-size: 12px;
+}
+.spellCell{
+  justify-self: center;
+  opacity: 0.95;
+}
+.spellCell.is-dash{ opacity: 0.6; }
+
+.spellClasses{ padding: 10px 14px 0; }
+.spellClasses__label{
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted2);
+  margin-bottom: 8px;
+}
+.spellClasses__btn{
+  width: 100%;
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.05);
+  color: var(--text);
+  font-weight: 900;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  padding: 0 12px;
+}
+html[data-theme="arcane"] .spellClasses__btn{ border-color: rgba(13,18,28,0.14); background: rgba(13,18,28,0.05); }
+/* chevron rendered via mask so we can color it */
+.spellClasses__chev{
+  width: 18px;
+  height: 18px;
+  opacity: 0.9;
+  background: color-mix(in srgb, var(--text) 88%, transparent);
+  -webkit-mask: url("./assets/icons/chevron-down.svg") center/18px 18px no-repeat;
+  mask: url("./assets/icons/chevron-down.svg") center/18px 18px no-repeat;
+}
+.spellClasses__btn[aria-expanded="true"] .spellClasses__chev{
+  transform: rotate(180deg);
+}
+
+/* multiselect field for spell classes (chips inside) */
+.spellClasses__wrap{ position: relative; }
+.spellClasses__btn--multi{
+  height: auto;
+  min-height: 56px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  gap: 10px;
+}
+.spellClasses__value{
+  flex: 1;
+  display:flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items:center;
+  min-height: 34px; /* keeps box steady */
+}
+.spellChips--inField{ margin-top: 0; display:flex; flex-wrap: wrap; gap: 8px; }
+.spellClasses__placeholder{
+  font-weight: 900;
+  opacity: 0.9;
+}
+.spellClasses__btn.has-chips .spellClasses__placeholder{ display:none; }
+
+.popover--classes{
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  min-width: 0;
+}
+.popItem{
+  width: 100%;
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  text-align:left;
+  font-weight: 800;
+}
+.popItem.is-active{
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.popItem__check{
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--text) 38%, transparent);
+  position: relative;
+  flex: 0 0 auto;
+}
+.popItem.is-active .popItem__check{
+  border-color: color-mix(in srgb, var(--accent) 75%, transparent);
+  background: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.popItem.is-active .popItem__check::after{
+  content:"";
+  position:absolute;
+  inset: 2px;
+  background: color-mix(in srgb, var(--text) 92%, transparent);
+  transform: rotate(45deg);
+  border-right: 2px solid color-mix(in srgb, var(--text) 92%, transparent);
+  border-bottom: 2px solid color-mix(in srgb, var(--text) 92%, transparent);
+  background: transparent;
+}
+
+.spellChips{
+  margin-top: 10px;
+  display:flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.spellChip{
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-weight: 900;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+}
+html[data-theme="arcane"] .spellChip{ border-color: rgba(13,18,28,0.14); background: rgba(13,18,28,0.06); }
+
+.spellChip__x{
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.9);
+  font-weight: 900;
+  line-height: 1;
+}
+html[data-theme="arcane"] .spellChip__x{ background: rgba(13,18,28,0.10); color: rgba(13,18,28,0.9); }
+
+.spellPrepTabs{
+  padding: 0 14px;
+  display:flex;
+  gap: 0;
+  margin-bottom: 10px;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 24%, rgba(255,255,255,0.10));
+}
+.spellPrepTab{
+  flex: 1 1 0;
+  min-width: 0;
+  height: 42px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: color-mix(in srgb, var(--text) 88%, transparent);
+  font-weight: 800;
+  font-size: 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 4px;
+  padding: 0 6px;
+}
+.spellPrepTab__text{ white-space: nowrap; overflow:hidden; text-overflow:ellipsis; }
+.spellPrepTab.is-active{
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+.spellPrepTab__count{
+  font-size: 12px;
+  font-weight: 900;
+  color: inherit;
+}
+
+.spellPrepBody{ padding: 0 14px calc(18px + var(--safeBottom)); }
+.spellPrepPane{ display:none; }
+.spellPrepPane.is-active{ display:block; }
+
+.spellPrepLevel{ margin-top: 14px; }
+.spellPrepLevel__title{
+  font-family: Cinzel, serif;
+  font-weight: 800;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.spellPrepRow{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--bg2) 90%, var(--accent) 10%);
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, rgba(255,255,255,0.10));
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.spellPrepRow__left{ min-width: 0; flex: 1 1 auto; cursor: pointer; }
+.spellPrepRow__actions{ display:flex; align-items:center; gap: 8px; flex: 0 0 auto; }
+.spellPrepRow__name{
+  font-family: Cinzel, serif;
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 1.1;
+}
+.spellPrepRow__sub{
+  margin-top: 4px;
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  font-weight: 900;
+  color: var(--muted2);
+  text-transform: uppercase;
+}
+.spellPrepRow__btn{
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  background: transparent;
+  color: var(--text);
+  font-weight: 900;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.spellPrepRow__btn.is-on{
+  background: color-mix(in srgb, var(--accent) 28%, rgba(255,255,255,0.06));
+}
+.spellPrepRow__btn.is-danger{
+  border-color: color-mix(in srgb, #ff6b6b 70%, transparent);
+  color: #ffb3b3;
+}
+
+.spellViewClose{
+  position: sticky;
+  top: 0;
+  margin-left: auto;
+  display:block;
+}
+
+.spellViewTitle{
+  font-family: Cinzel, serif;
+  font-weight: 800;
+  font-size: 20px;
+  text-align:center;
+  margin-top: 6px;
+}
+.spellViewSub{
+  text-align:center;
+  margin-top: 4px;
+  color: var(--muted2);
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.spellViewMeta{
+  margin-top: 12px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--bg2) 90%, var(--accent) 10%);
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, rgba(255,255,255,0.10));
+  padding: 10px 12px;
+}
+.spellViewMeta__row{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  padding: 6px 0;
+}
+.spellMetaIcon{ width: 18px; height: 18px; opacity: 0.85; flex: 0 0 auto; }
+.spellMetaText{ font-weight: 800; }
+
+.spellViewDesc{
+  margin-top: 12px;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+.spellViewClassesLabel{
+  margin-top: 14px;
+  font-weight: 900;
+  color: var(--muted2);
+}
+.spellViewClasses{
+  margin-top: 8px;
+  display:flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.spellClassBadge{
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.9);
+}
+
+.spellClassBadge--artificer{ background: var(--cls-artificer); }
+.spellClassBadge--bard{ background: var(--cls-bard); }
+.spellClassBadge--barbarian{ background: var(--cls-barbarian); }
+.spellClassBadge--cleric{ background: var(--cls-cleric); }
+.spellClassBadge--druid{ background: var(--cls-druid); }
+.spellClassBadge--fighter{ background: var(--cls-fighter); }
+.spellClassBadge--monk{ background: var(--cls-monk); }
+.spellClassBadge--paladin{ background: var(--cls-paladin); }
+.spellClassBadge--ranger{ background: var(--cls-ranger); }
+.spellClassBadge--rogue{ background: var(--cls-rogue); color: rgba(255,255,255,0.96); }
+.spellClassBadge--sorcerer{ background: var(--cls-sorcerer); }
+.spellClassBadge--warlock{ background: var(--cls-warlock); color: rgba(255,255,255,0.96); }
+.spellClassBadge--wizard{ background: var(--cls-wizard); }
+
+
+.spellViewSlotRow{
+  margin-top: 8px;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.spellViewSlotLabel{
+  font-weight: 900;
+  color: var(--muted2);
+  flex: 0 0 auto;
+}
+.spellSlotChips{
+  display:flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.spellSlotChip{
+  height: 26px;
+  min-width: 26px;
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  font-weight: 900;
+  font-size: 12px;
+}
+html[data-theme="arcane"] .spellSlotChip{ border-color: rgba(13,18,28,0.16); background: rgba(13,18,28,0.04); }
+.spellSlotChip.is-active{
+  background: color-mix(in srgb, var(--accent) 28%, rgba(255,255,255,0.06));
+  border-color: color-mix(in srgb, var(--accent) 75%, rgba(255,255,255,0.16));
+}
+
+
+
+/* =========================
+   SPELLS — UI TUNING (dodelat)
+   ========================= */
+
+.spellsTop{ gap: 8px; margin-bottom: 8px; }
+
+.spellsStat{
+  border-radius: 10px;
+  padding: 8px 10px;
+  background: rgba(255,255,255,0.07);
+  box-shadow:
+    0 12px 26px rgba(0,0,0,0.22),
+    0 0 0 1px color-mix(in srgb, var(--accent) 72%, transparent) inset,
+    0 0 0 2px color-mix(in srgb, var(--accent2) 40%, transparent) inset;
+}
+html[data-theme="arcane"] .spellsStat{
+  background: rgba(13,18,28,0.07);
+}
+
+.spellsStat__label{
+  font-size: 10px;
+  letter-spacing: 1.8px;
+}
+
+.spellsStat__value{
+  font-size: 18px;
+}
+
+.spellsActions{
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.spellActionBtn{
+  height: 34px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+  background: rgba(255,255,255,0.10);
+  font-size: 12px;
+}
+html[data-theme="arcane"] .spellActionBtn{
+  background: rgba(13,18,28,0.10);
+  border-color: color-mix(in srgb, var(--accent) 34%, transparent);
+}
+
+/* Filters: square tiles + 1px gap */
+.spellsFilters{
+  gap: 1px;
+  flex-wrap: wrap;
+  margin: 8px 0 12px;
+}
+.spellFilterBtn{
+  height: 30px;
+  min-width: 32px;
+  padding: 0 10px;
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+  background: rgba(255,255,255,0.10);
+  font-size: 12px;
+}
+html[data-theme="arcane"] .spellFilterBtn{
+  border-color: color-mix(in srgb, rgba(13,18,28,1) 18%, transparent);
+  background: rgba(13,18,28,0.10);
+}
+.spellFilterBtn.is-active{
+  background: color-mix(in srgb, var(--accent) 26%, rgba(255,255,255,0.10));
+  border-color: color-mix(in srgb, var(--accent) 78%, transparent);
+}
+
+/* Shared icons (colored by theme) */
+.sIcon{
+  width: 18px;
+  height: 18px;
+  display:inline-block;
+  background: color-mix(in srgb, var(--accent) 88%, #fff 12%);
+  opacity: 0.95;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+.sIcon--time{ -webkit-mask-image: url("./assets/icons/spells/time.svg"); mask-image: url("./assets/icons/spells/time.svg"); }
+.sIcon--range{ -webkit-mask-image: url("./assets/icons/spells/range.svg"); mask-image: url("./assets/icons/spells/range.svg"); }
+.sIcon--check{ -webkit-mask-image: url("./assets/icons/spells/check.svg"); mask-image: url("./assets/icons/spells/check.svg"); }
+.sIcon--dice{ -webkit-mask-image: url("./assets/icons/spells/dice.svg"); mask-image: url("./assets/icons/spells/dice.svg"); }
+.sIcon--duration{ -webkit-mask-image: url("./assets/icons/spells/duration.svg"); mask-image: url("./assets/icons/spells/duration.svg"); }
+.sIcon--components{ -webkit-mask-image: url("./assets/icons/spells/components.svg"); mask-image: url("./assets/icons/spells/components.svg"); }
+
+.spellCols{
+  grid-template-columns: 1fr 34px 84px 64px 44px;
+  gap: 6px;
+  padding: 0 12px;
+  opacity: 1;
+}
+.spellCols__spacer{ height: 1px; }
+
+.spellCard{
+  background: rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+html[data-theme="arcane"] .spellCard{ background: rgba(13,18,28,0.12); }
+
+.spellCard__sub{ display:none; } /* legacy */
+
+.spellCard__row{
+  margin-top: 6px;
+  display:grid;
+  grid-template-columns: 1fr 34px 84px 64px 44px;
+  gap: 6px;
+  align-items:center;
+}
+.spellCard__lvl{
+  font-size: 10px;
+  letter-spacing: 1.0px;
+  font-weight: 700;
+  color: var(--muted2);
+  text-transform: uppercase;
+}
+.spellCell{
+  justify-self: center;
+  font-weight: 900;
+  font-size: 11px;
+}
+
+/* Slot dots: mimic skill radios */
+.spellSlots .slotDot{
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--bg2) 92%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--text) 10%, transparent) inset;
+  padding:0;
+  -webkit-tap-highlight-color: transparent;
+}
+.spellSlots .slotDot.is-used{
+  border-color: color-mix(in srgb, var(--accent) 92%, transparent);
+  background:
+    radial-gradient(circle at 35% 35%,
+      color-mix(in srgb, var(--accent) 95%, #fff 5%) 0%,
+      color-mix(in srgb, var(--accent) 70%, transparent) 45%,
+      color-mix(in srgb, var(--bg2) 92%, transparent) 78%
+    );
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent) inset,
+    0 10px 18px color-mix(in srgb, var(--glow) 20%, transparent);
+}
+html[data-theme="arcane"] .spellSlots .slotDot{
+  background: color-mix(in srgb, rgba(13,18,28,1) 90%, transparent);
+  border-color: color-mix(in srgb, rgba(13,18,28,1) 35%, transparent);
+}
+html[data-theme="arcane"] .spellSlots .slotDot.is-used{
+  border-color: color-mix(in srgb, rgba(13,18,28,1) 92%, transparent);
+  background:
+    radial-gradient(circle at 35% 35%,
+      rgba(13,18,28,0.95) 0%,
+      rgba(13,18,28,0.80) 55%,
+      rgba(13,18,28,0.75) 100%);
+}
+html[data-theme="lichking"] .spellSlots .slotDot{
+  border-color: color-mix(in srgb, var(--accent) 75%, rgba(255,255,255,0.18));
+  background: color-mix(in srgb, rgba(0,0,0,1) 18%, color-mix(in srgb, var(--bg2) 92%, transparent));
+}
+html[data-theme="lichking"] .spellSlots .slotDot.is-used{
+  border-color: color-mix(in srgb, var(--accent) 96%, rgba(255,255,255,0.10));
+}
+
+/* Spell view meta icons */
+.spellViewMeta__row .sIcon{ flex: 0 0 auto; }
+
+
+
+
+/* ===== Spells cards/panes per theme (non-transparent) ===== */
+html[data-theme="molten"] .spellCard,
+html[data-theme="molten"] .spellPrepRow{
+  background: rgba(18, 10, 10, 0.96);
+}
+html[data-theme="lichking"] .spellCard,
+html[data-theme="lichking"] .spellPrepRow{
+  background: rgba(8, 14, 22, 0.96);
+}
+html[data-theme="legion"] .spellCard,
+html[data-theme="legion"] .spellPrepRow{
+  background: rgba(8, 14, 10, 0.96);
+}
+html[data-theme="arcane"] .spellCard,
+html[data-theme="arcane"] .spellPrepRow{
+  background: rgba(7, 10, 24, 0.94);
+}
+
+
+.spellPrepRow__name .spellTag{
+  margin-left: 6px;
+  height: 16px;
+  min-width: 16px;
+  padding: 0 6px;
+  border-radius: 7px;
+  font-size: 10px;
+  letter-spacing: 0.4px;
+}
+
+
+/* ===== Spells filters per theme ===== */
+html[data-theme="molten"] .spellFilterBtn{ background: rgba(18,10,10,0.96); border-color: color-mix(in srgb, var(--accent) 38%, transparent); }
+html[data-theme="lichking"] .spellFilterBtn{ background: rgba(8,14,22,0.96); border-color: color-mix(in srgb, var(--accent) 42%, transparent); }
+html[data-theme="legion"] .spellFilterBtn{ background: rgba(8,14,10,0.96); border-color: color-mix(in srgb, var(--accent) 42%, transparent); }
+html[data-theme="arcane"] .spellFilterBtn{ background: rgba(7,10,24,0.94); border-color: color-mix(in srgb, var(--accent) 38%, transparent); }
+html[data-theme="molten"] .spellFilterBtn.is-active,
+html[data-theme="lichking"] .spellFilterBtn.is-active,
+html[data-theme="legion"] .spellFilterBtn.is-active,
+html[data-theme="arcane"] .spellFilterBtn.is-active{
+  background: color-mix(in srgb, var(--accent) 28%, rgba(255,255,255,0.08));
+  border-color: color-mix(in srgb, var(--accent) 85%, transparent);
+}
+
+/* ====== Spells FINAL overrides (do not remove) ====== */
+
+/* Thin themed divider under each level title */
+.spellLevel__line{
+  height: 1px;
+  background: color-mix(in srgb, var(--accent) 55%, transparent);
+  opacity: 0.95;
+}
+html[data-theme="arcane"] .spellLevel__line{
+  background: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+/* Ensure filter tiles keep their "square chips" look in ALL themes */
+.spellsFilters{ gap: 1px; }
+.spellFilterBtn{
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--bg2) 86%, var(--accent) 14%);
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, rgba(255,255,255,0.10));
+}
+.spellFilterBtn.is-active{
+  background: color-mix(in srgb, var(--bg2) 58%, var(--accent) 42%);
+  border-color: color-mix(in srgb, var(--accent) 78%, rgba(255,255,255,0.12));
+}
+html[data-theme="lichking"] .spellFilterBtn{
+  background: color-mix(in srgb, var(--bg2) 92%, rgba(0,0,0,0.75));
+  border-color: color-mix(in srgb, var(--accent) 55%, rgba(255,255,255,0.18));
+}
+html[data-theme="lichking"] .spellFilterBtn.is-active{
+  background: color-mix(in srgb, var(--accent) 28%, var(--bg2) 72%);
+  border-color: color-mix(in srgb, var(--accent) 88%, rgba(255,255,255,0.18));
+}
+
+/* Slot dots: EXACTLY like miniToggleDot (saving throw), but without the "mask" */
+.spellSlots .slotDot,
+.slotDot{
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  background: var(--bg2);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--text) 10%, transparent) inset;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.spellSlots .slotDot.is-used,
+.slotDot.is-used{
+  border-color: color-mix(in srgb, var(--accent) 92%, transparent);
+  background:
+    radial-gradient(circle at 35% 35%,
+      color-mix(in srgb, var(--accent) 95%, #fff 5%) 0%,
+      color-mix(in srgb, var(--accent) 70%, transparent) 45%,
+      color-mix(in srgb, var(--bg2) 92%, transparent) 78%
+    );
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent) inset,
+    0 10px 18px color-mix(in srgb, var(--glow) 20%, transparent);
+}
+
+/* Lich King: increase contrast + keep click feel */
+html[data-theme="lichking"] .spellSlots .slotDot,
+html[data-theme="lichking"] .slotDot{
+  background: color-mix(in srgb, rgba(0,0,0,1) 22%, var(--bg2));
+  border-color: color-mix(in srgb, var(--accent) 78%, rgba(255,255,255,0.22));
+}
+html[data-theme="lichking"] .spellSlots .slotDot.is-used,
+html[data-theme="lichking"] .slotDot.is-used{
+  border-color: color-mix(in srgb, var(--accent) 98%, rgba(255,255,255,0.12));
+}
+
+/* =========================================================
+   NOTE: In this project the "Lich King" theme uses data-theme="arcane".
+   The overrides above were originally written for lichking; duplicate them
+   for arcane so they actually apply.
+   ========================================================= */
+
+html[data-theme="arcane"] .spellSlots .slotDot,
+html[data-theme="arcane"] .slotDot{
+  background: color-mix(in srgb, rgba(0,0,0,1) 22%, var(--bg2));
+  border-color: color-mix(in srgb, var(--accent) 78%, rgba(255,255,255,0.22));
+}
+html[data-theme="arcane"] .spellSlots .slotDot.is-used,
+html[data-theme="arcane"] .slotDot.is-used{
+  border-color: color-mix(in srgb, var(--accent) 98%, rgba(255,255,255,0.12));
+}
+
+html[data-theme="arcane"] .spellFilterBtn{
+  background: color-mix(in srgb, var(--bg2) 92%, rgba(0,0,0,0.75));
+  border-color: color-mix(in srgb, var(--accent) 55%, rgba(255,255,255,0.18));
+}
+html[data-theme="arcane"] .spellFilterBtn.is-active{
+  background: color-mix(in srgb, var(--accent) 28%, var(--bg2) 72%);
+  border-color: color-mix(in srgb, var(--accent) 88%, rgba(255,255,255,0.18));
+}
+
+/* Make spell settings chips/fields readable in arcane (Lich King) */
+html[data-theme="arcane"] .spellClasses__btn,
+html[data-theme="arcane"] .spellClasses__btn--multi{
+  background: rgba(7, 10, 24, 0.92);
+  border-color: color-mix(in srgb, var(--accent) 45%, rgba(255,255,255,0.18));
+}
+html[data-theme="arcane"] .popover--classes{
+  background: rgba(7, 10, 24, 0.96);
+  border-color: color-mix(in srgb, var(--accent) 40%, rgba(255,255,255,0.16));
+}
+html[data-theme="arcane"] .spellChip{
+  background: rgba(7, 10, 24, 0.92);
+  border-color: color-mix(in srgb, var(--accent) 55%, rgba(255,255,255,0.18));
+}
+html[data-theme="arcane"] .spellChip__x{
+  background: rgba(0,0,0,0.20);
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+
+/* =========================================================
+   ARCANE ("Lich King") — STRONGER CONTROL STYLING
+   Make inputs/buttons inside modals clearly framed + visible,
+   including active/focus states.
+   ========================================================= */
+
+html[data-theme="arcane"] .input,
+html[data-theme="arcane"] .xpInput,
+html[data-theme="arcane"] .xpBackspace,
+html[data-theme="arcane"] .key,
+html[data-theme="arcane"] .hpAct,
+html[data-theme="arcane"] .spellFilterBtn,
+html[data-theme="arcane"] .spellClasses__btn,
+html[data-theme="arcane"] .spellChip,
+html[data-theme="arcane"] .spellStat__value{
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 34%, rgba(255,255,255,0.12)) inset;
+}
+
+html[data-theme="arcane"] .input{
+  background: rgba(7, 10, 24, 0.92);
+}
+html[data-theme="arcane"] .input:focus,
+html[data-theme="arcane"] .input:focus-visible{
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 46%, rgba(255,255,255,0.12)) inset,
+    0 0 0 2px color-mix(in srgb, var(--accent) 42%, transparent);
+}
+
+html[data-theme="arcane"] .xpInput{
+  background: rgba(7, 10, 24, 0.92);
+}
+html[data-theme="arcane"] .xpBackspace{
+  background: rgba(7, 10, 24, 0.92);
+}
+html[data-theme="arcane"] .xpBackspace:active{
+  transform: translateY(1px);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 55%, rgba(255,255,255,0.14)) inset,
+    0 10px 18px rgba(0,0,0,0.24);
+}
+
+html[data-theme="arcane"] .key{
+  background: rgba(7, 10, 24, 0.86);
+}
+html[data-theme="arcane"] .key:active{
+  background: rgba(12, 16, 42, 0.92);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 58%, rgba(255,255,255,0.14)) inset,
+    0 10px 18px rgba(0,0,0,0.24);
+}
+
+html[data-theme="arcane"] .hpAct{
+  background: rgba(7, 10, 24, 0.86);
+}
+html[data-theme="arcane"] .hpAct:active{
+  background: rgba(12, 16, 42, 0.92);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 58%, rgba(255,255,255,0.14)) inset,
+    0 10px 18px rgba(0,0,0,0.22);
+}
+
+/* Spell classes field: active/open state */
+html[data-theme="arcane"] .spellClasses__btn{
+  background: rgba(7, 10, 24, 0.92);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, rgba(255,255,255,0.14));
+  box-shadow: none;
+}
+html[data-theme="arcane"] .spellClasses__btn[aria-expanded="true"]{
+  border-color: color-mix(in srgb, var(--accent) 78%, rgba(255,255,255,0.16));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 46%, rgba(255,255,255,0.14)) inset,
+    0 0 0 2px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* Filters: stronger active */
+html[data-theme="arcane"] .spellFilterBtn{
+  background: rgba(7, 10, 24, 0.86);
+  border: 1px solid color-mix(in srgb, var(--accent) 44%, rgba(255,255,255,0.14));
+  box-shadow: none;
+}
+html[data-theme="arcane"] .spellFilterBtn.is-active{
+  background: rgba(12, 16, 42, 0.92);
+  border-color: color-mix(in srgb, var(--accent) 86%, rgba(255,255,255,0.18));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent) inset;
+}
+
+/* Chips: clearer framing */
+html[data-theme="arcane"] .spellChip{
+  background: rgba(7, 10, 24, 0.92);
+  border: 1px solid color-mix(in srgb, var(--accent) 54%, rgba(255,255,255,0.16));
+  box-shadow: none;
+}
+
+/* Slot dots in ARCANE must be high-contrast (Lich King) */
+html[data-theme="arcane"] .spellSlots .slotDot,
+html[data-theme="arcane"] .slotDot{
+  background: rgba(7, 10, 24, 0.70);
+  border-color: color-mix(in srgb, var(--accent) 82%, rgba(255,255,255,0.22));
+}
+html[data-theme="arcane"] .spellSlots .slotDot.is-used,
+html[data-theme="arcane"] .slotDot.is-used{
+  background: color-mix(in srgb, var(--accent) 78%, rgba(255,255,255,0.10));
+  border-color: color-mix(in srgb, var(--accent) 98%, rgba(255,255,255,0.16));
+}
+
+/* ===== CREATE CUSTOM SPELL ===== */
+.spellCreateModalPanel{padding-bottom:max(16px,var(--safeBottom));}
+.spellCreateHead{position:sticky;top:0;z-index:4;background:var(--panel, rgba(20,20,20,.96));backdrop-filter:blur(10px);}
+.spellCreateBody{padding:8px 14px 0;display:flex;flex-direction:column;gap:16px;overflow:auto;max-height:calc(100vh - 112px);} 
+.spellCreateSection__title{font:700 14px/1.2 Inter,sans-serif;color:var(--text);margin-bottom:10px;}
+.spellCreateSection__line{height:1px;background:color-mix(in srgb,var(--accent) 70%, transparent);margin-bottom:12px;opacity:.9;}
+.spellCreateGrid{display:grid;gap:10px;}
+.spellCreateGrid--name{grid-template-columns:minmax(0,1fr) 96px;align-items:end;}
+.spellCreateGrid--two{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+.spellCreateGrid--two-tight{grid-template-columns:128px minmax(0,1fr);}
+.spellCreateGrid--three{grid-template-columns:minmax(0,1.2fr) 88px 110px;}
+.spellCreateField{display:flex;flex-direction:column;gap:6px;min-width:0;}
+.spellCreateLabel{font:600 12px/1.15 Inter,sans-serif;color:color-mix(in srgb,var(--text) 88%, transparent);text-transform:none;letter-spacing:.1px;}
+.spellCreateInput,.spellCreateSelect,.spellCreateTextarea{width:100%;min-width:0;height:44px;border-radius:6px;border:1px solid color-mix(in srgb,var(--accent) 28%, rgba(255,255,255,.1));background:rgba(14,18,28,.32);color:var(--text);padding:0 12px;font:500 15px/1.2 Inter,sans-serif;outline:none;box-sizing:border-box;}
+.spellCreateTextarea{height:96px;padding:10px 12px;resize:vertical;min-height:96px;}
+.spellCreateInput:disabled,.spellCreateSelect:disabled,.spellCreateTextarea:disabled{opacity:.52;}
+.spellCreateInput:focus,.spellCreateSelect:focus,.spellCreateTextarea:focus{border-color:var(--accent);box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 45%, transparent);}
+.spellCreateChips{display:flex;gap:8px;flex-wrap:wrap;}
+.spellCreateChip{height:32px;padding:0 14px;border-radius:999px;border:1px solid color-mix(in srgb,var(--accent) 24%, rgba(255,255,255,.1));background:rgba(14,18,28,.22);color:var(--text);font:700 12px/1 Inter,sans-serif;cursor:pointer;}
+.spellCreateChip.is-active{background:color-mix(in srgb,var(--accent) 24%, rgba(255,255,255,.05));border-color:color-mix(in srgb,var(--accent) 72%, rgba(255,255,255,.18));}
+.req{color:#d95c5c;}
+.spellCreateActions{display:flex;justify-content:flex-end;gap:10px;padding:12px 14px 14px;position:sticky;bottom:0;background:linear-gradient(180deg,rgba(8,10,14,0),rgba(8,10,14,.72) 24%,rgba(8,10,14,.88));}
+.spellCreateBtn{height:40px;min-width:116px;padding:0 16px;border-radius:6px;border:1px solid transparent;font:800 14px/1 Inter,sans-serif;cursor:pointer;}
+.spellCreateBtn--ghost{background:rgba(140,32,32,.1);border-color:#d96c6c;color:#f0b0b0;}
+.spellCreateBtn--ok{background:color-mix(in srgb,var(--accent) 42%, rgba(255,255,255,.06));border-color:color-mix(in srgb,var(--accent) 78%, rgba(255,255,255,.18));color:var(--text);}
+.spellCreateClassesBtn{min-height:74px;height:auto;padding-top:10px;padding-bottom:10px;align-items:flex-start;}
+.popItem--check{justify-content:flex-start;gap:10px;}
+.popItem__mark{width:14px;display:inline-flex;align-items:center;justify-content:center;opacity:.2;}
+.popItem--check.is-active .popItem__mark{opacity:1;}
+.popItem--check.is-active{background:color-mix(in srgb,var(--accent) 18%, transparent);}
+
+html[data-theme="molten"] .spellCreateInput,
+html[data-theme="molten"] .spellCreateSelect,
+html[data-theme="molten"] .spellCreateTextarea,
+html[data-theme="molten"] .spellCreateChip{background:rgba(51,22,16,.42);}
+html[data-theme="arcane"] .spellCreateInput,
+html[data-theme="arcane"] .spellCreateSelect,
+html[data-theme="arcane"] .spellCreateTextarea,
+html[data-theme="arcane"] .spellCreateChip,
+html[data-theme="arcane"] .spellCreateClassesBtn{background:rgba(13,18,28,.34);border-color:rgba(13,18,28,.28);}
+html[data-theme="arcane"] .spellCreateHead{background:rgba(18,28,44,.95);}
+html[data-theme="legion"] .spellCreateInput,
+html[data-theme="legion"] .spellCreateSelect,
+html[data-theme="legion"] .spellCreateTextarea,
+html[data-theme="legion"] .spellCreateChip{background:rgba(20,28,18,.36);}
+
+.req--hidden{ display:none; }
+
+
+/* ===== FINAL SPELL VIEW / PREP FIX ===== */
+#spellViewModal{ z-index: 70; }
+#spellPrepModal{ z-index: 60; }
+
+.modal__panel--spellView{
+  left: 50%;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  width: min(97vw, 920px);
+  max-height: min(94vh, 900px);
+  border-radius: 10px;
+  padding: 12px 16px 16px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, rgba(255,255,255,0.12));
+}
+html[data-theme="molten"] .modal__panel--spellView{
+  border-color: color-mix(in srgb, var(--accent2) 44%, rgba(255,255,255,0.16));
+  box-shadow: 0 0 0 1px rgba(255,120,80,0.08), var(--shadow);
+}
+html[data-theme="arcane"] .modal__panel--spellView{
+  border-color: color-mix(in srgb, #7fd1ff 48%, rgba(255,255,255,0.12));
+  box-shadow: 0 0 0 1px rgba(127,209,255,0.08), var(--shadow);
+}
+html[data-theme="legion"] .modal__panel--spellView{
+  border-color: color-mix(in srgb, #a7ff1a 42%, rgba(255,255,255,0.12));
+  box-shadow: 0 0 0 1px rgba(167,255,26,0.08), var(--shadow);
+}
+
+.spellViewHead{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.spellViewHead__main{ min-width: 0; flex: 1 1 auto; }
+.spellViewClose{
+  position: static;
+  top: auto;
+  margin-left: 0;
+  flex: 0 0 auto;
+}
+.spellViewTitle{
+  font-family: Cinzel, serif;
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.05;
+  text-align:left;
+  margin-top: 0;
+}
+.spellViewSub{
+  text-align:left;
+  margin-top: 4px;
+  color: var(--muted2);
+  font-weight: 900;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+.spellViewMeta{
+  margin-top: 0;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.spellViewMeta__row{
+  padding: 5px 0;
+}
+.spellMetaText{ font-weight: 800; font-size: 13px; }
+.spellViewDesc{
+  margin-top: 10px;
+  font-weight: 450;
+  font-size: 12px;
+  line-height: 1.42;
+  white-space: pre-wrap;
+}
+.spellViewClassesLabel{ margin-top: 12px; }
+.spellViewClasses{ margin-top: 6px; gap: 6px; }
+
+.spellPrepRow__left{ position: relative; z-index: 1; }
+.spellPrepRow__actions{ position: relative; z-index: 2; }
+
+
+/* ===== SPELL CREATE: visibility + themed popovers ===== */
+.spellCreateModalPanel,
+#spellModal .modal__panel--full,
+#spellPrepModal .modal__panel--full{
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, rgba(255,255,255,0.14));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 16%, transparent), var(--shadow);
+}
+html[data-theme="molten"] .spellCreateModalPanel,
+html[data-theme="molten"] #spellModal .modal__panel--full,
+html[data-theme="molten"] #spellPrepModal .modal__panel--full{
+  border-color: color-mix(in srgb, var(--accent2) 44%, rgba(255,255,255,0.16));
+  box-shadow: 0 0 0 1px rgba(255,120,80,0.08), var(--shadow);
+}
+html[data-theme="arcane"] .spellCreateModalPanel,
+html[data-theme="arcane"] #spellModal .modal__panel--full,
+html[data-theme="arcane"] #spellPrepModal .modal__panel--full{
+  border-color: color-mix(in srgb, #7fd1ff 48%, rgba(255,255,255,0.14));
+  box-shadow: 0 0 0 1px rgba(127,209,255,0.10), var(--shadow);
+}
+html[data-theme="legion"] .spellCreateModalPanel,
+html[data-theme="legion"] #spellModal .modal__panel--full,
+html[data-theme="legion"] #spellPrepModal .modal__panel--full{
+  border-color: color-mix(in srgb, #a7ff1a 42%, rgba(255,255,255,0.14));
+  box-shadow: 0 0 0 1px rgba(167,255,26,0.10), var(--shadow);
+}
+
+.spellCreateChip{
+  transition: background-color .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease, transform .12s ease;
+}
+.spellCreateChip.is-active{
+  background: color-mix(in srgb, var(--accent) 34%, rgba(255,255,255,.08));
+  border-color: color-mix(in srgb, var(--accent) 90%, rgba(255,255,255,.24));
+  color: color-mix(in srgb, var(--text) 98%, white 2%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent), 0 6px 16px rgba(0,0,0,.16);
+}
+html[data-theme="molten"] .spellCreateChip.is-active{
+  background: color-mix(in srgb, var(--accent2) 28%, rgba(61,24,18,.84));
+}
+html[data-theme="arcane"] .spellCreateChip.is-active{
+  background: color-mix(in srgb, #7fd1ff 22%, rgba(7,10,24,.92));
+}
+html[data-theme="legion"] .spellCreateChip.is-active{
+  background: color-mix(in srgb, #a7ff1a 18%, rgba(20,28,18,.9));
+}
+
+#scClassesPopover{
+  top: auto;
+  bottom: calc(100% + 8px);
+}
+.spellCreateModalPanel .popover,
+#spellModal .popover,
+#spellPrepModal .popover{
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, rgba(255,255,255,0.14));
+  background: color-mix(in srgb, var(--panel) 92%, rgba(8,10,14,.96));
+  box-shadow: 0 16px 34px rgba(0,0,0,.28);
+}
+html[data-theme="molten"] .spellCreateModalPanel .popover,
+html[data-theme="molten"] #spellModal .popover,
+html[data-theme="molten"] #spellPrepModal .popover{
+  background: rgba(33,16,12,.96);
+  border-color: color-mix(in srgb, var(--accent2) 38%, rgba(255,255,255,.14));
+}
+html[data-theme="arcane"] .spellCreateModalPanel .popover,
+html[data-theme="arcane"] #spellModal .popover,
+html[data-theme="arcane"] #spellPrepModal .popover{
+  background: rgba(7,10,24,.97);
+  border-color: color-mix(in srgb, #7fd1ff 34%, rgba(255,255,255,.14));
+}
+html[data-theme="legion"] .spellCreateModalPanel .popover,
+html[data-theme="legion"] #spellModal .popover,
+html[data-theme="legion"] #spellPrepModal .popover{
+  background: rgba(16,22,14,.97);
+  border-color: color-mix(in srgb, #a7ff1a 28%, rgba(255,255,255,.14));
+}
+
+.spellCreateModalPanel .popItem,
+#spellModal .popItem,
+#spellPrepModal .popItem{
+  color: var(--text);
+}
+.spellCreateModalPanel .popItem.is-active,
+#spellModal .popItem.is-active,
+#spellPrepModal .popItem.is-active{
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.spellChip--createClass{
+  border-color: color-mix(in srgb, var(--accent) 44%, rgba(255,255,255,.16));
+  background: color-mix(in srgb, var(--accent) 18%, rgba(255,255,255,.06));
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+.spellChip--createClass .spellChip__x{
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent) 18%, rgba(255,255,255,.10));
+}
+
+.spellChip--createClass-artificer{ background: color-mix(in srgb, var(--cls-artificer) 22%, rgba(255,255,255,.06)); border-color: color-mix(in srgb, var(--cls-artificer) 48%, rgba(255,255,255,.16)); color: rgba(7,14,18,.96); }
+.spellChip--createClass-bard{ background: color-mix(in srgb, var(--cls-bard) 22%, rgba(255,255,255,.06)); border-color: color-mix(in srgb, var(--cls-bard) 48%, rgba(255,255,255,.16)); color: rgba(25,8,30,.96); }
+.spellChip--createClass-barbarian{ background: color-mix(in srgb, var(--cls-barbarian) 26%, rgba(255,255,255,.06)); border-color: color-mix(in srgb, var(--cls-barbarian) 54%, rgba(255,255,255,.16)); color: rgba(255,244,236,.98); }
+.spellChip--createClass-cleric{ background: color-mix(in srgb, var(--cls-cleric) 24%, rgba(255,255,255,.06)); border-color: color-mix(in srgb, var(--cls-cleric) 50%, rgba(255,255,255,.16)); color: rgba(30,24,8,.96); }
+.spellChip--createClass-druid{ background: color-mix(in srgb, var(--cls-druid) 22%, rgba(255,255,255,.06)); border-color: color-mix(in srgb, var(--cls-druid) 48%, rgba(255,255,255,.16)); color: rgba(11,24,10,.96); }
+.spellChip--createClass-fighter{ background: color-mix(in srgb, var(--cls-fighter) 26%, rgba(255,255,255,.06)); border-color: color-mix(in srgb, var(--cls-fighter) 54%, rgba(255,255,255,.16)); color: rgba(250,252,255,.98); }
+.spellChip--createClass-monk{ background: color-mix(in srgb, var(--cls-monk) 28%, rgba(255,255,255,.06)); border-color: color-mix(in srgb, var(--cls-monk) 58%, rgba(255,255,255,.16)); color: rgba(43,28,4,.98); }
+.spellChip--createClass-paladin{ background: color-mix(in srgb, var(--cls-paladin) 24%, rgba(255,255,255,.06)); border-color: color-mix(in srgb, var(--cls-paladin) 52%, rgba(255,255,255,.16)); color: rgba(37,19,6,.96); }
+.spellChip--createClass-ranger{ background: color-mix(in srgb, var(--cls-ranger) 22%, rgba(255,255,255,.06)); border-color: color-mix(in srgb, var(--cls-ranger) 48%, rgba(255,255,255,.16)); color: rgba(18,24,8,.96); }
+.spellChip--createClass-rogue{ background: color-mix(in srgb, var(--cls-rogue) 28%, rgba(255,255,255,.06)); border-color: color-mix(in srgb, var(--cls-rogue) 58%, rgba(255,255,255,.16)); color: rgba(255,255,255,.98); }
+.spellChip--createClass-sorcerer{ background: color-mix(in srgb, var(--cls-sorcerer) 24%, rgba(255,255,255,.06)); border-color: color-mix(in srgb, var(--cls-sorcerer) 52%, rgba(255,255,255,.16)); color: rgba(18,10,34,.96); }
+.spellChip--createClass-warlock{ background: color-mix(in srgb, var(--cls-warlock) 26%, rgba(255,255,255,.06)); border-color: color-mix(in srgb, var(--cls-warlock) 56%, rgba(255,255,255,.16)); color: rgba(255,255,255,.98); }
+.spellChip--createClass-wizard{ background: color-mix(in srgb, var(--cls-wizard) 24%, rgba(255,255,255,.06)); border-color: color-mix(in srgb, var(--cls-wizard) 52%, rgba(255,255,255,.16)); color: rgba(8,18,36,.96); }
+
+.spellChip--createClass .spellChip__x{ border: 1px solid color-mix(in srgb, currentColor 18%, transparent); }
+html[data-theme="molten"] .spellChip--createClass{
+  background: color-mix(in srgb, var(--accent2) 18%, rgba(51,22,16,.48));
+}
+html[data-theme="arcane"] .spellChip--createClass{
+  background: color-mix(in srgb, #7fd1ff 16%, rgba(7,10,24,.94));
+  border-color: color-mix(in srgb, #7fd1ff 34%, rgba(255,255,255,.16));
+}
+html[data-theme="legion"] .spellChip--createClass{
+  background: color-mix(in srgb, #a7ff1a 14%, rgba(20,28,18,.94));
+  border-color: color-mix(in srgb, #a7ff1a 28%, rgba(255,255,255,.16));
+}
+
+
+
+/* ===== Attacks: collapses + abilities ===== */
+.atkSectionHead{
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.atkSectionHead__title,
+.atkBlock__title{
+  font-family: Cinzel, serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+.atkSectionHead__chev{
+  width: 16px;
+  height: 16px;
+  filter: var(--iconFilter);
+  opacity: 0.82;
+  transition: transform 160ms ease;
+}
+.atkSectionHead[aria-expanded="false"] .atkSectionHead__chev{ transform: rotate(-90deg); }
+.atkSectionBody.is-collapsed{ display: none; }
+.atkBlock--abilities{
+  margin-top: 16px;
+}
+.atkAbilities{
+  border-top: 1px solid color-mix(in srgb, var(--line) 85%, transparent);
+  padding-top: 10px;
+  margin-top: 10px;
+}
+.atkAbilitiesList{
+  display: grid;
+  gap: 8px;
+}
+.atkAbilityRow{
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 24px 96px;
+  gap: 6px;
+  align-items: center;
+}
+.atkAbilityRow.has-info{
+  grid-template-columns: minmax(0,1fr) 20px 24px 96px;
+}
+.atkAbilityRow.is-sort{
+  grid-template-columns: 28px minmax(0,1fr) 24px 96px;
+}
+.atkAbilityRow.is-sort.has-info{
+  grid-template-columns: 28px minmax(0,1fr) 20px 24px 96px;
+}
+.atkAbilityNameBtn,
+.atkAbilityCell,
+.atkAbilityCounter{
+  min-height: 38px;
+  border-radius: 4px;
+  border: 0;
+  background: color-mix(in srgb, var(--bg2) 46%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--line) 68%, transparent) inset;
+}
+html[data-theme="arcane"] .atkAbilityNameBtn,
+html[data-theme="arcane"] .atkAbilityCell,
+html[data-theme="arcane"] .atkAbilityCounter{
+  background: rgba(13,18,28,0.06);
+}
+.atkAbilityNameBtn{
+  width: 100%;
+  padding: 0 12px;
+  text-align: left;
+  color: color-mix(in srgb, var(--muted) 90%, transparent);
+  font-size: 14px;
+  font-weight: 800;
+  overflow: hidden;
+}
+.atkAbilityNameBtn.is-filled{
+  font-family: Cinzel, serif;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+.atkAbilityNameBtn span{
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.atkAbilityInfoBtn{
+  width: 20px;
+  height: 20px;
+}
+.atkAbilityCell{
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 14px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+.atkAbilityCounter{
+  display: grid;
+  grid-template-columns: 28px 1fr 28px;
+  align-items: center;
+  padding: 0 4px;
+}
+.atkAbilityCounter__value{
+  text-align: center;
+  font-weight: 900;
+  font-size: 14px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+.atkAbilityStepBtn{
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+.atkAbilityStepBtn__icon{
+  width: 14px;
+  height: 14px;
+  filter: var(--iconFilter);
+  opacity: 0.9;
+}
+.atkAbilityStepBtn__text{
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+.atkAbilitiesFoot{
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+#atkAbilityModal .modal__panel--atkAbility{
+  bottom: 0;
+  top: auto;
+  max-height: 88vh;
+  overflow: auto;
+}
+#atkAbilityModal .modal__head{
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  padding: 0;
+  z-index: 5;
+}
+.atkAbilityEdit{
+  padding: 8px 12px calc(14px + var(--safeBottom));
+}
+.atkAbilityEdit__grid{
+  display: grid;
+  gap: 12px;
+}
+.atkAbilityEdit__lineInput{
+  height: 34px !important;
+  line-height: 34px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent) !important;
+  padding: 0 !important;
+  outline: none !important;
+}
+.atkAbilityEdit__lineInput:focus,
+.atkAbilityEdit__lineInput:focus-visible{
+  border-bottom-color: color-mix(in srgb, var(--accent) 45%, transparent) !important;
+}
+.atkAbilityEdit__toggleRow{
+  display: flex;
+  align-items: center;
+}
+.atkAbilityCheck{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+}
+.atkAbilityCheck input{
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  border: 0;
+  border-radius: 5px;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--panel2) 78%, rgba(255,255,255,0.04)),
+      color-mix(in srgb, var(--bg2) 92%, rgba(0,0,0,0.12)));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--line) 72%, transparent) inset,
+    0 6px 14px rgba(0,0,0,0.24);
+  position: relative;
+  transition:
+    background 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+html[data-theme="arcane"] .atkAbilityCheck input{
+  background:
+    linear-gradient(180deg,
+      rgba(255,255,255,0.10),
+      rgba(13,18,28,0.14));
+}
+.atkAbilityCheck input::after{
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--accent) 82%, white 10%);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 42%, transparent) inset,
+    0 0 14px color-mix(in srgb, var(--accent) 30%, transparent);
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+.atkAbilityCheck input:checked{
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 36%, transparent) inset,
+    0 8px 16px rgba(0,0,0,0.26),
+    0 0 16px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.atkAbilityCheck input:checked::after{
+  opacity: 1;
+  transform: scale(1);
+}
+.atkAbilityEdit__actions{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+
+/* ===== Senses / proficiencies ===== */
+.senses{
+  display: grid;
+  gap: 16px;
+}
+.sensesBlock{
+  position: relative;
+}
+.sensesPassiveList{
+  display: grid;
+  gap: 6px;
+}
+.sensePassiveBtn{
+  width: 100%;
+  min-height: 38px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  overflow: visible;
+  text-align: left;
+}
+.sensePassiveBtn__value,
+.sensePassiveBtn__name{
+  position: relative;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--line) 68%, transparent) inset;
+  border-radius: 4px;
+}
+.sensePassiveBtn__value::before,
+.sensePassiveBtn__name::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--bg2) 92%, transparent);
+  z-index: -1;
+}
+html[data-theme="arcane"] .sensePassiveBtn__value::before,
+html[data-theme="arcane"] .sensePassiveBtn__name::before{
+  background: rgba(13,18,28,0.92);
+}
+.sensePassiveBtn__value{
+  position: relative;
+  z-index: 2;
+  width: 48px;
+  min-width: 48px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 16px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  overflow: visible;
+  flex: 0 0 48px;
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+}
+
+.sensePassiveBtn__name{
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  flex: 1 1 auto;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  margin-left: -6px;
+  padding: 0 12px 0 18px;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 1.1;
+  letter-spacing: 0.1px;
+  color: color-mix(in srgb, var(--text) 92%, transparent);
+  text-transform: uppercase;
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+}
+
+.sensePassiveBtn.is-open .sensePassiveBtn__value,
+.sensePassiveBtn.is-open .sensePassiveBtn__name{
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 52%, transparent) inset;
+}
+
+.senseTip{
+  position: absolute;
+  z-index: 20;
+  width: min(300px, calc(100% - 8px));
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  background: color-mix(in srgb, var(--bg1) 82%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 16px 42px rgba(0,0,0,0.42);
+  padding: 10px 12px;
+}
+.senseTip--hidden{ display:none; }
+.senseTip__title{
+  font-family: Cinzel, serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: color-mix(in srgb, var(--text) 94%, transparent);
+  margin: 0 0 6px;
+}
+.senseTip__formula{
+  font-size: 12px;
+  line-height: 1.35;
+  color: color-mix(in srgb, var(--text) 88%, transparent);
+  margin: 0 0 8px;
+}
+.senseTip__desc{
+  font-size: 12px;
+  line-height: 1.35;
+  color: color-mix(in srgb, var(--text) 84%, transparent);
+}
+.sensesProfBlock{
+  margin-top: 0;
+}
+.sensesProfList{
+  display: grid;
+  gap: 8px;
+}
+.senseProfRow{
+  display: grid;
+  gap: 6px;
+  align-items: center;
+}
+.senseProfRow.no-charges.no-info{
+  grid-template-columns: minmax(0,1fr);
+}
+.senseProfRow.no-charges.has-info{
+  grid-template-columns: minmax(0,1fr) 24px;
+}
+.senseProfRow.has-charges.no-info{
+  grid-template-columns: minmax(0,1fr) 24px 96px;
+}
+.senseProfRow.has-charges.has-info{
+  grid-template-columns: minmax(0,1fr) 20px 24px 96px;
+}
+.senseProfRow.is-sort.no-charges.no-info{
+  grid-template-columns: 28px minmax(0,1fr);
+}
+.senseProfRow.is-sort.no-charges.has-info{
+  grid-template-columns: 28px minmax(0,1fr) 24px;
+}
+.senseProfRow.is-sort.has-charges.no-info{
+  grid-template-columns: 28px minmax(0,1fr) 24px 96px;
+}
+.senseProfRow.is-sort.has-charges.has-info{
+  grid-template-columns: 28px minmax(0,1fr) 20px 24px 96px;
+}
+#senseProfModal .modal__panel--atkAbility{
+  bottom: 0;
+  top: auto;
+  max-height: 88vh;
+  overflow: auto;
+}
+#senseProfModal .modal__head{
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  padding: 0;
+  z-index: 5;
+}
+.atkAbilityEdit__grid--two{
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.atkAbilityEdit__notes{
+  min-height: 104px;
+  resize: none;
+}
+.atkAbilityEdit__toggleCol{
+  display: grid;
+  gap: 10px;
+}
+
+/* =========================
+   ABILITIES & SKILLS — bright theme accents only
+   ========================= */
+.abilityLine{
+  background:
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--accent) 94%, white 6%) 0%,
+      color-mix(in srgb, var(--accent) 72%, transparent) 58%,
+      transparent 100%);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--glow) 34%, transparent);
+}
+
+html[data-theme="molten"] .miniField::before{
+  border-color: rgba(255, 157, 46, 0.86);
+  box-shadow: 0 0 12px rgba(255, 120, 24, 0.14);
+}
+html[data-theme="arcane"] .miniField::before{
+  border-color: rgba(110, 203, 255, 0.88);
+  box-shadow: 0 0 12px rgba(78, 153, 255, 0.14);
+}
+html[data-theme="legion"] .miniField::before{
+  border-color: rgba(167, 255, 26, 0.88);
+  box-shadow: 0 0 12px rgba(130, 255, 56, 0.14);
+}
+
+html[data-theme="molten"] .miniValue{
+  border-color: rgba(255, 157, 46, 0.92);
+}
+html[data-theme="arcane"] .miniValue{
+  border-color: rgba(110, 203, 255, 0.92);
+}
+html[data-theme="legion"] .miniValue{
+  border-color: rgba(167, 255, 26, 0.92);
+}
+
+html[data-theme="molten"] .skillRow::before{
+  border-color: rgba(255, 157, 46, 0.86);
+  box-shadow: 0 0 12px rgba(255, 120, 24, 0.14);
+}
+html[data-theme="arcane"] .skillRow::before{
+  border-color: rgba(110, 203, 255, 0.88);
+  box-shadow: 0 0 12px rgba(78, 153, 255, 0.14);
+}
+html[data-theme="legion"] .skillRow::before{
+  border-color: rgba(167, 255, 26, 0.88);
+  box-shadow: 0 0 12px rgba(130, 255, 56, 0.14);
+}
