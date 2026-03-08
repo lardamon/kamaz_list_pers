@@ -157,14 +157,22 @@ html[data-theme="legion"] {
    ========================= */
 
 * { box-sizing: border-box; }
-html, body {
-  height: 100%;
-  min-height: 100%;
-  min-height: 100dvh;
+html,
+body {
+  height: calc(100vh + var(--safeBottom));
+  min-height: calc(100vh + var(--safeBottom));
   background-color: var(--bg0);
   overscroll-behavior: none;
+  overflow: hidden;
 }
 
+@supports (height: 100dvh) {
+  html,
+  body {
+    height: calc(100dvh + var(--safeBottom));
+    min-height: calc(100dvh + var(--safeBottom));
+  }
+}
 /* visually hidden (for file inputs etc.) */
 .srOnly{
   position: absolute !important;
@@ -190,13 +198,14 @@ body {
 }
 .app {
   height: 100%;
-  min-height: 100dvh;
+  min-height: 100%;
   display: grid;
   grid-template-columns: 1fr;
 }
 
 .screen {
   height: 100%;
+  min-height: 0;
   display: none;
   grid-template-rows: auto auto 1fr;
   overflow: hidden;
